@@ -1,10 +1,11 @@
-import { Schema, HTMLExtractor } from './to-structured'
+import { HastHTMLExtractor } from './extractor'
+import type { Schema } from './extractor-types'
 
-describe('HTMLExtractor', () => {
-  let extractor: HTMLExtractor
+describe('HastHTMLExtractor', () => {
+  let extractor: HastHTMLExtractor
 
   beforeEach(() => {
-    extractor = new HTMLExtractor()
+    extractor = new HastHTMLExtractor()
   })
 
   describe('基础选择器测试', () => {
