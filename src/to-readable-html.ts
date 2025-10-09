@@ -72,7 +72,7 @@ export interface ReadableHtmlResult {
   siteName?: string | null;
   /** The language of the document */
   lang?: string | null;
-  /** The published time of the article in ISO format */
+  /** The published time of the article in ISO format for "article:published_time" or "parsely-pub-date" */
   publishedTime?: string | null;
 }
 
