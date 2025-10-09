@@ -355,11 +355,11 @@ describe('toReadableHtml', () => {
       expect(result1).not.toBeNull();
       expect(result2).toBeDefined();
       expect(result2).not.toBeNull();
-      const innerHTML1 = result1.content?.innerHTML;
+      const innerHTML1 = result1!.content?.innerHTML;
       expect(innerHTML1).toContain('包含一个<a href="https://site1.com/about">相对链接');
       expect(innerHTML1).toContain('有一个图片:<img src="https://site1.com/images/sample.jpg"');
       expect(innerHTML1).toContain('指向外部资源的<a href="https://external.com/">绝对链接');
-      const innerHTML2 = result2.content?.innerHTML;
+      const innerHTML2 = result2!.content?.innerHTML;
       expect(innerHTML2).toContain('包含一个<a href="https://site2.org/about">相对链接');
       expect(innerHTML2).toContain('有一个图片:<img src="https://site2.org/images/sample.jpg"');
       expect(innerHTML2).toContain('指向外部资源的<a href="https://external.com/">绝对链接');
@@ -372,9 +372,9 @@ describe('toReadableHtml', () => {
 
       expect(result).toBeDefined();
       expect(result).not.toBeNull();
-      expect(result.title).toBe('测试相对链接处理');
-      expect(result.textContent).toContain('这是文章的第一段内容');
-      const innerHTML = result.content?.innerHTML;
+      expect(result!.title).toBe('测试相对链接处理');
+      expect(result!.textContent).toContain('这是文章的第一段内容');
+      const innerHTML = result!.content?.innerHTML;
       expect(innerHTML).toContain(`包含一个<a href="${DefaultBaseUrl}/about">相对链接`);
       expect(innerHTML).toContain(`有一个图片:<img src="${DefaultBaseUrl}/images/sample.jpg"`);
       expect(innerHTML).toContain('指向外部资源的<a href="https://external.com/">绝对链接');
@@ -392,14 +392,15 @@ describe('toReadableHtml', () => {
       });
 
       expect(result).toBeDefined();
-      expect(result.textContent).toContain('页面1');
-      expect(result.textContent).toContain('用户指南');
+      expect(result).not.toBeNull();
+      expect(result!.textContent).toContain('页面1');
+      expect(result!.textContent).toContain('用户指南');
 
-      const innerHTML = result.content?.innerHTML;
+      const innerHTML = result!.content?.innerHTML;
       expect(innerHTML).toContain('<a href="https://company.com/info/page1.html">页面1</a>');
       expect(innerHTML).toContain('<img src="https://company.com/images/logo.png">');
       expect(innerHTML).toContain('<a href="https://company.com/docs/guide.pdf">用户指南</a>');
-      expect(result.content?.querySelector('img')?.getAttribute('src')).toBe('https://company.com/images/logo.png');
+      expect(result!.content?.querySelector('img')?.getAttribute('src')).toBe('https://company.com/images/logo.png');
     });
   })
 });
