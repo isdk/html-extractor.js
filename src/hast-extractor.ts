@@ -68,8 +68,10 @@ export class HastHTMLExtractor {
 
     value = value.trim()
 
+    // 在返回前应用转换函数
     if (schema.transform) {
-      value = schema.transform(value, element)
+      const transformed = schema.transform(value, element)
+      value = transformed !== null && transformed !== undefined ? String(transformed) : ''
     }
 
     return value
@@ -89,39 +91,81 @@ export class HastHTMLExtractor {
   }
 
   private extractNumber(node: Node, schema: NumberSchema): number {
-    const stringValue = this.extractString(node, { ...schema, type: 'string' })
+    // 首先提取字符串但不应用转换
+    const stringSchema: StringSchema = {
+      ...schema,
+      type: 'string',
+      transform: undefined // 移除转换，因为我们会在数字阶段应用
+    }
+
+    let stringValue = this.extractString(node, stringSchema)
 
     if (!stringValue) {
       return this.handleMissingValue(schema)
     }
 
-    const numberValue = parseFloat(stringValue)
-    if (isNaN(numberValue)) {
-      return this.handleMissingValue(schema)
+    let numberValue: number
+
+    // 应用数字特定的转换函数
+    if (schema.transform) {
+      const transformed = schema.transform(stringValue)
+      if (typeof transformed === 'number') {
+        numberValue = transformed
+      } else {
+        // 如果转换函数返回非数字，尝试转换
+        numberValue = parseFloat(String(transformed))
+      }
+    } else {
+      // 没有转换函数，直接解析
+      numberValue = parseFloat(stringValue)
     }
 
-    if (schema.transform) {
-      return schema.transform(numberValue) as number
+    if (isNaN(numberValue)) {
+      return this.handleMissingValue(schema)
     }
 
     return numberValue
   }
 
   private extractBoolean(node: Node, schema: BooleanSchema): boolean {
-    const stringValue = this.extractString(node, { ...schema, type: 'string' })
+    // 首先提取字符串但不应用转换
+    const stringSchema: StringSchema = {
+      ...schema,
+      type: 'string',
+      transform: undefined // 移除转换，因为我们会在布尔阶段应用
+    }
+
+    let stringValue = this.extractString(node, stringSchema)
 
     if (!stringValue) {
       return this.handleMissingValue(schema)
     }
 
-    const truthyValues = ['true', '1', 'yes', 'on', 'enabled', 'active']
-    const boolValue = truthyValues.includes(stringValue.toLowerCase())
+    let boolValue: boolean
 
+    // 应用布尔特定的转换函数
     if (schema.transform) {
-      return schema.transform(boolValue) as boolean
+      const transformed = schema.transform(stringValue)
+      if (typeof transformed === 'boolean') {
+        boolValue = transformed
+      } else {
+        // 如果转换函数返回非布尔值，使用默认逻辑
+        boolValue = this.parseBooleanValue(stringValue)
+      }
+    } else {
+      // 没有转换函数，使用默认逻辑
+      boolValue = this.parseBooleanValue(stringValue)
     }
 
     return boolValue
+  }
+
+  /**
+   * 解析布尔值
+   */
+  private parseBooleanValue(value: string): boolean {
+    const truthyValues = ['true', '1', 'yes', 'on', 'enabled', 'active']
+    return truthyValues.includes(value.toLowerCase())
   }
 
   private extractArray(node: Node, schema: ArraySchema): any[] {
