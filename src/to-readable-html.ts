@@ -55,25 +55,25 @@ function toJsDOM(html: string, options: {url?: string, fragment?: boolean, docum
  */
 export interface ReadableHtmlResult {
   /** The title of the article or document */
-  title: string | null | undefined;
+  title?: string | null;
   /** The main content element of the parsed document */
-  content: Element | null | undefined;
+  content?: Element | null;
   /** The text content of the parsed document */
-  textContent: string | null | undefined;
+  textContent?: string | null;
   /** The length of the text content */
-  length: number | null | undefined;
+  length?: number | null;
   /** A short excerpt or summary of the content */
-  excerpt: string | null | undefined;
+  excerpt?: string | null;
   /** The author byline information */
-  byline: string | null | undefined;
+  byline?: string | null;
   /** The text direction (e.g., 'ltr' or 'rtl') */
-  dir: string | null | undefined;
+  dir?: string | null;
   /** The name of the website or publication */
-  siteName: string | null | undefined;
+  siteName?: string | null;
   /** The language of the document */
-  lang: string | null | undefined;
+  lang?: string | null;
   /** The published time of the article in ISO format */
-  publishedTime: string | null | undefined;
+  publishedTime?: string | null;
 }
 
 
