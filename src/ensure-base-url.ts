@@ -1,4 +1,4 @@
-import { fromHtml } from 'hast-util-from-html';
+import { fromHtml, type Options as FromHtmlOptions } from 'hast-util-from-html';
 import { toHtml } from 'hast-util-to-html';
 import { visit } from 'unist-util-visit';
 import type { Element, Root } from 'hast';
@@ -10,14 +10,14 @@ import type { Element, Root } from 'hast';
  * @param baseUrl The URL for the <base> tag's href attribute.
  * @returns A new HTML string with the <base> tag, or undefined if no changes were made.
  */
-export function ensureBaseUrl(html: string, baseUrl: string): string | undefined;
+export function ensureBaseUrl(html: string, baseUrl: string, options?: FromHtmlOptions): string | undefined;
 /**
  * Ensures a <base> tag exists in a HAST tree.
  * @param tree The HAST tree (Root node) to process.
  * @param baseUrl The URL for the <base> tag's href attribute.
  * @returns The modified HAST tree, or undefined if no changes were made.
  */
-export function ensureBaseUrl(tree: Root, baseUrl: string): Root | undefined;
+export function ensureBaseUrl(tree: Root, baseUrl: string, options?: FromHtmlOptions): Root | undefined;
 
 /**
  * Ensures a <base> tag exists in an HTML document (provided as a string or a HAST tree).
@@ -30,11 +30,11 @@ export function ensureBaseUrl(tree: Root, baseUrl: string): Root | undefined;
  * @param baseUrl The URL to set as the href for the <base> tag.
  * @returns A new HTML string or a modified HAST tree (matching the input type), or undefined if no changes were made.
  */
-export function ensureBaseUrl(input: string | Root, baseUrl: string): string | Root | undefined {
+export function ensureBaseUrl(input: string | Root, baseUrl: string, options?: FromHtmlOptions): string | Root | undefined {
   const isStringInput = typeof input === 'string';
 
   // 1. If input is a string, parse it into a HAST tree. Otherwise, use the provided tree.
-  const tree: Root = isStringInput ? fromHtml(input as string, { fragment: false }) : (input as Root);
+  const tree: Root = isStringInput ? fromHtml(input as string, { fragment: false, ...options }) : (input as Root);
 
   let baseTagExists = false;
   let headNode: Element | null | undefined;
