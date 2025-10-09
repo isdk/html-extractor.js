@@ -85,12 +85,14 @@
     "dist"
   ],
   "keywords": [
-    "ai",
-    "ai-tool",
-    "tool",
-    "llm",
-    "llamacpp",
-    "llama.cpp"
+    "html",
+    "extract",
+    "extractor",
+    "markdown",
+    "structure",
+    "data",
+    "text",
+    "readability"
   ],
   "maintainers": [
     "Riceball LEE <snowyu.lee@gmail.com>"
