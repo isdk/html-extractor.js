@@ -36,6 +36,7 @@
   "dependencies": {
     "@isdk/util": "link:../util",
     "@mozilla/readability": "^0.6.0",
+    "hast-util-from-dom": "^5.0.1",
     "hast-util-from-html": "^2.0.3",
     "hast-util-select": "^6.0.4",
     "hast-util-to-dom": "^4.0.1",
