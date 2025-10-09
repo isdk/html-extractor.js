@@ -43,10 +43,10 @@ export class HastHTMLExtractor {
           return this.extractAuto(node, schema)
       }
     } catch (error) {
-      console.warn(`Extraction error:`, error)
       if (schema.required) {
         throw new Error(`Required field extraction failed: ${error}`)
       }
+      console.warn(`Extraction error for selector "${schema.selector}":`, error)
       return schema.default !== undefined ? schema.default : null
     }
   }

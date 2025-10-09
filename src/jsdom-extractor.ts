@@ -66,10 +66,10 @@ export class JSDOMHTMLExtractor {
           return this.extractAuto(context, schema)
       }
     } catch (error) {
-      console.warn(`Extraction error for selector "${schema.selector}":`, error)
       if (schema.required) {
         throw new Error(`Required field extraction failed: ${error}`)
       }
+      console.warn(`Extraction error for selector "${schema.selector}":`, error)
       return schema.default !== undefined ? schema.default : null
     }
   }
