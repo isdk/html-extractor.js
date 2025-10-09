@@ -4,9 +4,9 @@ import rehypeParse, { Options as RehypeParseOptions} from 'rehype-parse'
 import rehypeStringify from 'rehype-stringify'
 // import { select, selectAll } from 'unist-util-select'
 import { select, selectAll } from 'hast-util-select'
-import { type Node, type Element } from 'hast';
 import { toCamelCase } from '@isdk/util';
-import type { ArraySchema, BooleanSchema, ExtractionResult, NumberSchema, ObjectSchema, Schema, SchemaType, StringSchema } from './extractor-types';
+import type { Node, Element, Text } from 'hast';
+import type { ArrayExtractionRule, BooleanExtractionRule, ExtractionResult, NumberExtractionRule, ObjectExtractionRule, ExtractionRule, ExtractionRuleType, StringExtractionRule } from './extractor-types';
 
 export class HastHTMLExtractor {
   private processor: Processor<any>
@@ -15,12 +15,12 @@ export class HastHTMLExtractor {
     this.processor = unified().use(rehypeParse, { fragment: true, ...options?.rehypeParseOption })
   }
 
-  extract(html: string, schema: Schema): ExtractionResult {
+  extract(html: string, schema: ExtractionRule): ExtractionResult {
     const tree = this.processor.parse(html)
     return this.processSchema(tree, schema)
   }
 
-  private processSchema(node: Node, schema: Schema): any {
+  private processSchema(node: Node, schema: ExtractionRule): any {
     if (!schema || typeof schema !== 'object') {
       return null
     }
@@ -51,7 +51,7 @@ export class HastHTMLExtractor {
     }
   }
 
-  private extractString(node: Node, schema: StringSchema): string {
+  private extractString(node: Node, schema: StringExtractionRule): string {
     const element = this.selectElement(node, schema) as Element
     if (!element) {
       return this.handleMissingValue(schema)
@@ -90,9 +90,9 @@ export class HastHTMLExtractor {
     return attrValue.toString()
   }
 
-  private extractNumber(node: Node, schema: NumberSchema): number {
+  private extractNumber(node: Node, schema: NumberExtractionRule): number {
     // 首先提取字符串但不应用转换
-    const stringSchema: StringSchema = {
+    const stringSchema: StringExtractionRule = {
       ...schema,
       type: 'string',
       transform: undefined // 移除转换，因为我们会在数字阶段应用
@@ -127,9 +127,9 @@ export class HastHTMLExtractor {
     return numberValue
   }
 
-  private extractBoolean(node: Node, schema: BooleanSchema): boolean {
+  private extractBoolean(node: Node, schema: BooleanExtractionRule): boolean {
     // 首先提取字符串但不应用转换
-    const stringSchema: StringSchema = {
+    const stringSchema: StringExtractionRule = {
       ...schema,
       type: 'string',
       transform: undefined // 移除转换，因为我们会在布尔阶段应用
@@ -168,7 +168,7 @@ export class HastHTMLExtractor {
     return truthyValues.includes(value.toLowerCase())
   }
 
-  private extractArray(node: Node, schema: ArraySchema): any[] {
+  private extractArray(node: Node, schema: ArrayExtractionRule): any[] {
     const elements = this.selectElements(node, schema)
 
     if (!elements.length) {
@@ -189,7 +189,7 @@ export class HastHTMLExtractor {
     return result
   }
 
-  private extractObject(node: Node, schema: ObjectSchema): Record<string, any> {
+  private extractObject(node: Node, schema: ObjectExtractionRule): Record<string, any> {
     const element = this.selectElement(node, schema)
 
     if (!element) {
@@ -217,23 +217,23 @@ export class HastHTMLExtractor {
     return result
   }
 
-  private extractAuto(node: Node, schema: Schema): any {
+  private extractAuto(node: Node, schema: ExtractionRule): any {
     if (schema.multiple) {
-      return this.extractArray(node, { ...schema, type: 'array' } as ArraySchema)
-    } else if ((schema as ObjectSchema).properties) {
-      return this.extractObject(node, { ...schema, type: 'object' } as ObjectSchema)
+      return this.extractArray(node, { ...schema, type: 'array' } as ArrayExtractionRule)
+    } else if ((schema as ObjectExtractionRule).properties) {
+      return this.extractObject(node, { ...schema, type: 'object' } as ObjectExtractionRule)
     } else {
-      return this.extractString(node, { ...schema, type: 'string' } as StringSchema)
+      return this.extractString(node, { ...schema, type: 'string' } as StringExtractionRule)
     }
   }
 
-  private inferSchemaType(schema: Schema): SchemaType {
+  private inferSchemaType(schema: ExtractionRule): ExtractionRuleType {
     if (schema.multiple) return 'array'
     if ((schema as any).properties) return 'object'
     return 'string'
   }
 
-  private handleMissingValue(schema: Schema): any {
+  private handleMissingValue(schema: ExtractionRule): any {
     if (schema.default !== undefined) {
       return schema.default
     }
@@ -243,7 +243,7 @@ export class HastHTMLExtractor {
     return null
   }
 
-  private selectElement(node: Node, schema: Schema): Element | null | undefined {
+  private selectElement(node: Node, schema: ExtractionRule): Element | null | undefined {
     if (!schema.selector) return node as Element
 
     try {
@@ -254,7 +254,7 @@ export class HastHTMLExtractor {
     }
   }
 
-  private selectElements(node: Node, schema: Schema): Node[] {
+  private selectElements(node: Node, schema: ExtractionRule): Node[] {
     if (!schema.selector) return [node]
 
     try {
@@ -266,14 +266,12 @@ export class HastHTMLExtractor {
   }
 
   private extractText(node: Node): string {
-    const unistNode = node as any
-
-    if (unistNode.type === 'text') {
-      return unistNode.value || ''
+    if (node.type === 'text') {
+      return (node as Text).value || ''
     }
-
-    if (unistNode.children && Array.isArray(unistNode.children)) {
-      return unistNode.children
+    const children = (node as Element).children
+    if (children && Array.isArray(children)) {
+      return children
         .map((child: Node) => this.extractText(child))
         .filter(Boolean)
         .join('')

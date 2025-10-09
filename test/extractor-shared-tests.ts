@@ -1,5 +1,5 @@
 import { TestCase } from './extractor-utils'
-import type { Schema } from '../src/extractor-types'
+import type { ExtractionRule } from '../src/extractor-types'
 
 export const sharedTestCases: TestCase[] = [
   // 基础选择器测试
@@ -343,7 +343,7 @@ export const createPerformanceTestData = () => {
     </div>
   `
 
-  const complexSchema: Schema = {
+  const complexSchema: ExtractionRule = {
     type: 'object',
     selector: '.container',
     properties: {

@@ -1,15 +1,15 @@
-export const SchemaTypes = [
+export const ExtractionRuleTypes = [
   'string',
   'number',
   'boolean',
   'array',
   'object'
 ] as const
-export type SchemaType = typeof SchemaTypes[number]
+export type ExtractionRuleType = typeof ExtractionRuleTypes[number]
 
-export interface BaseSchema {
+export interface BaseExtractionRule {
   selector?: string
-  type?: SchemaType
+  type?: ExtractionRuleType
   attribute?: string
   multiple?: boolean
   required?: boolean
@@ -17,52 +17,36 @@ export interface BaseSchema {
   transform?: (value: any, element?: any) => any
 }
 
-export interface StringSchema extends BaseSchema {
+export interface StringExtractionRule extends BaseExtractionRule {
   type?: 'string'
 }
 
-export interface NumberSchema extends BaseSchema {
+export interface NumberExtractionRule extends BaseExtractionRule {
   type?: 'number'
 }
 
-export interface BooleanSchema extends BaseSchema {
+export interface BooleanExtractionRule extends BaseExtractionRule {
   type?: 'boolean'
 }
 
-export interface ArraySchema extends BaseSchema {
+export interface ArrayExtractionRule extends BaseExtractionRule {
   type: 'array'
-  items?: Schema
+  items?: ExtractionRule
 }
 
-export interface ObjectSchema extends BaseSchema {
+export interface ObjectExtractionRule extends BaseExtractionRule {
   type: 'object'
-  properties?: Record<string, Schema>
+  properties?: Record<string, ExtractionRule>
 }
 
-export type Schema =
-  | BaseSchema
-  | StringSchema
-  | NumberSchema
-  | BooleanSchema
-  | ArraySchema
-  | ObjectSchema
+export type ExtractionRule =
+  | BaseExtractionRule
+  | StringExtractionRule
+  | NumberExtractionRule
+  | BooleanExtractionRule
+  | ArrayExtractionRule
+  | ObjectExtractionRule
 
 export interface ExtractionResult {
   [key: string]: any
-}
-
-export interface ElementData {
-  text: string
-  html: string
-  attributes: Record<string, any>
-}
-
-// Unist 相关的类型
-export interface UnistNode {
-  type: string
-  tagName?: string
-  properties?: Record<string, any>
-  children?: UnistNode[]
-  value?: string
-  position?: any
 }

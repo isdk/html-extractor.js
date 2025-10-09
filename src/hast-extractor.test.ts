@@ -1,5 +1,5 @@
 import { HastHTMLExtractor } from './hast-extractor'
-import type { Schema } from './extractor-types'
+import type { ExtractionRule } from './extractor-types'
 
 describe('HastHTMLExtractor', () => {
   let extractor: HastHTMLExtractor
@@ -11,7 +11,7 @@ describe('HastHTMLExtractor', () => {
   describe('基础选择器测试', () => {
     test('应该使用元素选择器提取文本', () => {
       const html = '<div>hello world</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: 'div'
       }
@@ -22,7 +22,7 @@ describe('HastHTMLExtractor', () => {
 
     test('应该使用类选择器提取文本', () => {
       const html = '<div class="test">hello world</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.test'
       }
@@ -33,7 +33,7 @@ describe('HastHTMLExtractor', () => {
 
     test('应该使用ID选择器提取文本', () => {
       const html = '<div id="main">hello world</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '#main'
       }
@@ -45,7 +45,7 @@ describe('HastHTMLExtractor', () => {
     test('应该提取属性值', () => {
       const attribute = 'Data-iDAs1'
       const html = `<div ${attribute}="123" class="test">content</div>`
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector:
          '.test',
@@ -66,7 +66,7 @@ describe('HastHTMLExtractor', () => {
           <p class="item">Third</p>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.item:first-child'
       }
@@ -83,7 +83,7 @@ describe('HastHTMLExtractor', () => {
           <p class="item">Third</p>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.item:last-child'
       }
@@ -100,7 +100,7 @@ describe('HastHTMLExtractor', () => {
           <p class="item">Third</p>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.item:nth-child(2)'
       }
@@ -119,7 +119,7 @@ describe('HastHTMLExtractor', () => {
       </div>
     `
 
-    const schema: Schema = {
+    const schema: ExtractionRule = {
       type: 'object',
       properties: {
         secondItem: {
@@ -148,7 +148,7 @@ describe('HastHTMLExtractor', () => {
       </div>
     `
 
-    const schema: Schema = {
+    const schema: ExtractionRule = {
       type: 'object',
       properties: {
         specialItems: {
@@ -169,7 +169,7 @@ describe('HastHTMLExtractor', () => {
       <div data-status="inactive">Inactive</div>
     `
 
-    const schema: Schema = {
+    const schema: ExtractionRule = {
       type: 'object',
       properties: {
         activeItems: {

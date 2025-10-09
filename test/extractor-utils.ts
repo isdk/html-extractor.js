@@ -1,16 +1,16 @@
 // test-utils.ts
 import { describe, test, expect, beforeEach, afterEach } from 'vitest'
-import type { Schema } from '../src/extractor-types'
+import type { ExtractionRule } from '../src/extractor-types'
 
 export interface Extractor {
-  extract(html: string, schema: Schema): any
+  extract(html: string, schema: ExtractionRule): any
   destroy?: () => void
 }
 
 export interface TestCase {
   name: string
   html: string
-  schema: Schema
+  schema: ExtractionRule
   expected: any
   only?: boolean
   skip?: boolean
@@ -50,7 +50,7 @@ export class TestRunner {
     extractorName: string,
     extractorFactory: () => Extractor,
     largeHTML: string,
-    complexSchema: Schema
+    complexSchema: ExtractionRule
   ) {
     describe(`${extractorName} 性能测试`, () => {
       test('应该能够处理大量数据', () => {

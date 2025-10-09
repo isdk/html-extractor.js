@@ -1,6 +1,6 @@
 // jsdom-extractor.test.ts
 import { JSDOMHTMLExtractor } from './jsdom-extractor'
-import { Schema } from './extractor-types'
+import { ExtractionRule } from './extractor-types'
 
 describe('JSDOMHTMLExtractor', () => {
   let extractor: JSDOMHTMLExtractor
@@ -16,7 +16,7 @@ describe('JSDOMHTMLExtractor', () => {
   describe('基础选择器测试', () => {
     test('应该使用元素选择器提取文本', () => {
       const html = '<div>hello world</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: 'div'
       }
@@ -27,7 +27,7 @@ describe('JSDOMHTMLExtractor', () => {
 
     test('应该使用类选择器提取文本', () => {
       const html = '<div class="test">hello world</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.test'
       }
@@ -38,7 +38,7 @@ describe('JSDOMHTMLExtractor', () => {
 
     test('应该使用ID选择器提取文本', () => {
       const html = '<div id="main">hello world</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '#main'
       }
@@ -49,7 +49,7 @@ describe('JSDOMHTMLExtractor', () => {
 
     test('应该提取属性值', () => {
       const html = '<div data-id="123" class="test">content</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.test',
         attribute: 'data-id'
@@ -69,7 +69,7 @@ describe('JSDOMHTMLExtractor', () => {
           <p class="item">Third</p>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.item:first-child'
       }
@@ -86,7 +86,7 @@ describe('JSDOMHTMLExtractor', () => {
           <p class="item">Third</p>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.item:last-child'
       }
@@ -103,7 +103,7 @@ describe('JSDOMHTMLExtractor', () => {
           <p class="item">Third</p>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.item:nth-child(2)'
       }
@@ -121,7 +121,7 @@ describe('JSDOMHTMLExtractor', () => {
           </div>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'array',
         selector: '.item:has(.highlight)',
         items: { type: 'string' }
@@ -139,7 +139,7 @@ describe('JSDOMHTMLExtractor', () => {
           <div class="item active">Another Active</div>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'array',
         selector: '.item:not(.active)',
         items: { type: 'string' }
@@ -159,7 +159,7 @@ describe('JSDOMHTMLExtractor', () => {
           <div class="item">Item 3</div>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'array',
         selector: '.item',
         items: {
@@ -185,7 +185,7 @@ describe('JSDOMHTMLExtractor', () => {
           </article>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'array',
         selector: '.article',
         items: {
@@ -226,7 +226,7 @@ describe('JSDOMHTMLExtractor', () => {
           </div>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'object',
         selector: '.profile',
         properties: {
@@ -256,7 +256,7 @@ describe('JSDOMHTMLExtractor', () => {
   describe('错误处理测试', () => {
     test('应该返回默认值当元素不存在时', () => {
       const html = '<div>No target here</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.nonexistent',
         default: 'default value'
@@ -268,7 +268,7 @@ describe('JSDOMHTMLExtractor', () => {
 
     test('应该对必需字段抛出错误', () => {
       const html = '<div>No target here</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: '.required-element',
         required: true
@@ -278,7 +278,7 @@ describe('JSDOMHTMLExtractor', () => {
     })
 
     test('应该处理空HTML输入', () => {
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: 'div',
         default: 'empty'
@@ -295,7 +295,7 @@ describe('JSDOMHTMLExtractor', () => {
         <div data-status="active">Active Item</div>
         <div data-status="inactive">Inactive Item</div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'array',
         selector: '[data-status="active"]',
         items: { type: 'string' }
@@ -313,7 +313,7 @@ describe('JSDOMHTMLExtractor', () => {
           <p>Paragraph 2</p>
         </div>
       `
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'string',
         selector: 'div p.special'
       }
@@ -326,7 +326,7 @@ describe('JSDOMHTMLExtractor', () => {
   describe('数据类型转换测试', () => {
     test('应该提取数字类型', () => {
       const html = '<div class="price">29.99</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'number',
         selector: '.price'
       }
@@ -337,7 +337,7 @@ describe('JSDOMHTMLExtractor', () => {
 
     test('应该提取布尔类型', () => {
       const html = '<div class="active">true</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'boolean',
         selector: '.active'
       }
@@ -348,7 +348,7 @@ describe('JSDOMHTMLExtractor', () => {
 
     test('应该使用转换函数', () => {
       const html = '<div class="price">$29.99</div>'
-      const schema: Schema = {
+      const schema: ExtractionRule = {
         type: 'number',
         selector: '.price',
         transform: (value: string) => parseFloat(value.replace('$', ''))

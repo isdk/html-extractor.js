@@ -3,7 +3,7 @@ import { describe, test, expect, beforeEach, afterEach } from 'vitest'
 import { JSDOMHTMLExtractor } from '../src/jsdom-extractor'
 import { TestRunner, Extractor } from './extractor-utils'
 import { sharedTestCases, advancedTestCases, createPerformanceTestData } from './extractor-shared-tests'
-import type { Schema } from '../src/extractor-types'
+import type { ExtractionRule } from '../src/extractor-types'
 
 // JSDOM 提取器工厂
 const createJSDOMExtractor = (): Extractor => {
@@ -34,7 +34,7 @@ describe('JSDOM 特定测试', () => {
 
   test('应该支持完整的 DOM API', () => {
     const html = '<div class="test">content</div>'
-    const schema: Schema = {
+    const schema: ExtractionRule = {
       type: 'string',
       selector: '.test'
     }

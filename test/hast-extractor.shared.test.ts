@@ -3,7 +3,7 @@ import { describe } from 'vitest'
 import { HastHTMLExtractor } from '../src/hast-extractor'
 import { TestRunner, Extractor } from './extractor-utils'
 import { sharedTestCases, advancedTestCases, createPerformanceTestData } from './extractor-shared-tests'
-import type { Schema } from '../src/extractor-types'
+import type { ExtractionRule } from '../src/extractor-types'
 
 // HAST 提取器工厂
 const createHastExtractor = (): Extractor => {
@@ -26,7 +26,7 @@ describe('HAST 特定测试', () => {
 
   test('应该正确处理驼峰属性名', () => {
     const html = '<div class="test" data-custom-attr="value">content</div>'
-    const schema: Schema = {
+    const schema: ExtractionRule = {
       type: 'string',
       selector: '.test',
       attribute: 'data-custom-attr'

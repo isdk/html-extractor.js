@@ -1,10 +1,10 @@
 import { JSDOM } from 'jsdom'
 import {
-  Schema,
-  SchemaType,
+  ExtractionRule,
+  ExtractionRuleType,
   ExtractionResult,
-  ArraySchema,
-  ObjectSchema
+  ArrayExtractionRule,
+  ObjectExtractionRule
 } from './extractor-types'
 
 export class JSDOMHTMLExtractor {
@@ -13,7 +13,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 提取 HTML 内容
    */
-  extract(html: string, schema: Schema): ExtractionResult {
+  extract(html: string, schema: ExtractionRule): ExtractionResult {
     this.dom = new JSDOM(html)
     const document = this.dom.window.document
     return this.processSchema(document, schema)
@@ -24,7 +24,7 @@ export class JSDOMHTMLExtractor {
    */
   extractMultiple(
     htmlDocuments: Array<{ id: string; html: string }>,
-    schema: Schema
+    schema: ExtractionRule
   ): Record<string, ExtractionResult> {
     const results: Record<string, ExtractionResult> = {}
 
@@ -43,7 +43,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 处理 Schema
    */
-  private processSchema(context: Element | Document, schema: Schema): any {
+  private processSchema(context: Element | Document, schema: ExtractionRule): any {
     if (!schema || typeof schema !== 'object') {
       return null
     }
@@ -77,7 +77,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 提取字符串 - 修复版本
    */
-  private extractString(context: Element | Document, schema: Schema): string {
+  private extractString(context: Element | Document, schema: ExtractionRule): string {
     const element = this.selectElement(context, schema)
     if (!element) {
       return this.handleMissingValue(schema)
@@ -104,11 +104,11 @@ export class JSDOMHTMLExtractor {
   /**
    * 提取数字 - 修复版本
    */
-  private extractNumber(context: Element | Document, schema: Schema): number {
+  private extractNumber(context: Element | Document, schema: ExtractionRule): number {
     // 首先提取字符串并应用转换
-    const stringSchema: Schema = {
+    const stringSchema: ExtractionRule = {
       ...schema,
-      type: 'string' as SchemaType,
+      type: 'string' as ExtractionRuleType,
       // 移除数字类型的转换函数，因为会在字符串阶段应用
       transform: undefined
     }
@@ -141,11 +141,11 @@ export class JSDOMHTMLExtractor {
   /**
    * 提取布尔值 - 修复版本
    */
-  private extractBoolean(context: Element | Document, schema: Schema): boolean {
+  private extractBoolean(context: Element | Document, schema: ExtractionRule): boolean {
     // 首先提取字符串并应用转换
-    const stringSchema: Schema = {
+    const stringSchema: ExtractionRule = {
       ...schema,
-      type: 'string' as SchemaType,
+      type: 'string' as ExtractionRuleType,
       transform: undefined
     }
 
@@ -173,7 +173,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 提取数组
    */
-  private extractArray(context: Element | Document, schema: ArraySchema): any[] {
+  private extractArray(context: Element | Document, schema: ArrayExtractionRule): any[] {
     const elements = this.selectElements(context, schema)
 
     if (!elements.length) {
@@ -197,7 +197,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 提取对象
    */
-  private extractObject(context: Element | Document, schema: ObjectSchema): Record<string, any> {
+  private extractObject(context: Element | Document, schema: ObjectExtractionRule): Record<string, any> {
     const element = this.selectElement(context, schema)
 
     if (!element) {
@@ -234,7 +234,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 自动类型推断提取
    */
-  private extractAuto(context: Element | Document, schema: Schema): any {
+  private extractAuto(context: Element | Document, schema: ExtractionRule): any {
     if (schema.multiple) {
       return this.extractArray(context, { ...schema, type: 'array' } as any)
     } else if ((schema as any).properties) {
@@ -247,7 +247,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 选择单个元素
    */
-  private selectElement(context: Element | Document, schema: Schema): Element | null {
+  private selectElement(context: Element | Document, schema: ExtractionRule): Element | null {
     if (!schema.selector) return context as Element
 
     try {
@@ -261,7 +261,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 选择多个元素
    */
-  private selectElements(context: Element | Document, schema: Schema): NodeListOf<Element> {
+  private selectElements(context: Element | Document, schema: ExtractionRule): NodeListOf<Element> {
     if (!schema.selector) {
       // 如果没有选择器，返回包含 context 的伪 NodeList
       const fakeNodeList = {
@@ -289,7 +289,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 推断 Schema 类型
    */
-  private inferSchemaType(schema: Schema): SchemaType {
+  private inferSchemaType(schema: ExtractionRule): ExtractionRuleType {
     if (schema.multiple) return 'array'
     if ((schema as any).properties) return 'object'
     return 'string'
@@ -298,7 +298,7 @@ export class JSDOMHTMLExtractor {
   /**
    * 处理缺失值
    */
-  private handleMissingValue(schema: Schema): any {
+  private handleMissingValue(schema: ExtractionRule): any {
     if (schema.default !== undefined) {
       return schema.default
     }
