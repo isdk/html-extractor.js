@@ -1,4 +1,11 @@
-export type SchemaType = 'string' | 'number' | 'boolean' | 'array' | 'object'
+export const SchemaTypes = [
+  'string',
+  'number',
+  'boolean',
+  'array',
+  'object'
+] as const
+export type SchemaType = typeof SchemaTypes[number]
 
 export interface BaseSchema {
   selector?: string
