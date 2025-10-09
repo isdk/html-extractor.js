@@ -1,4 +1,4 @@
-import { HastHTMLExtractor } from './extractor'
+import { HastHTMLExtractor } from './hast-extractor'
 import type { Schema } from './extractor-types'
 
 describe('HastHTMLExtractor', () => {
