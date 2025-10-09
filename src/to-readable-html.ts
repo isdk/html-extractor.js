@@ -49,20 +49,81 @@ function toJsDOM(html: string, options: {url?: string, fragment?: boolean, docum
   return dom as Document
 }
 // */
+/**
+ * Interface representing the result of the readable HTML parsing operation.
+ * Contains various metadata and content extracted from the parsed document.
+ */
 export interface ReadableHtmlResult {
-    title: string | null | undefined;
-    content: Element | null | undefined;
-    textContent: string | null | undefined;
-    length: number | null | undefined;
-    excerpt: string | null | undefined;
-    byline: string | null | undefined;
-    dir: string | null | undefined;
-    siteName: string | null | undefined;
-    lang: string | null | undefined;
-    publishedTime: string | null | undefined;
+  /** The title of the article or document */
+  title: string | null | undefined;
+  /** The main content element of the parsed document */
+  content: Element | null | undefined;
+  /** The text content of the parsed document */
+  textContent: string | null | undefined;
+  /** The length of the text content */
+  length: number | null | undefined;
+  /** A short excerpt or summary of the content */
+  excerpt: string | null | undefined;
+  /** The author byline information */
+  byline: string | null | undefined;
+  /** The text direction (e.g., 'ltr' or 'rtl') */
+  dir: string | null | undefined;
+  /** The name of the website or publication */
+  siteName: string | null | undefined;
+  /** The language of the document */
+  lang: string | null | undefined;
+  /** The published time of the article in ISO format */
+  publishedTime: string | null | undefined;
 }
 
-export function toReadableHtml(html: string, options: {url?: string, readabilityOptions?: any} = {}) {
+
+/**
+ * Interface representing configuration options for the Readability parser.
+ * These options control how the content is parsed and extracted.
+ */
+export interface ReadabilityOptions {
+  /** Enable or disable debug logging */
+  debug?: boolean;
+  /** Maximum number of elements to parse before giving up */
+  maxElemsToParse?: number;
+  /** Number of top candidate elements to consider */
+  nbTopCandidates?: number;
+  /** Minimum character threshold for content */
+  charThreshold?: number;
+  /** Array of CSS class names to preserve during parsing */
+  classesToPreserve?: string[];
+  /** Whether to keep CSS classes in the output */
+  keepClasses?: boolean;
+  /** Custom serializer function for nodes */
+  serializer?: ((node: Node) => string);
+  /** Disable JSON-LD metadata extraction */
+  disableJSONLD?: boolean;
+  /** Regular expression to match allowed video sources */
+  allowedVideoRegex?: RegExp;
+}
+
+/**
+ * Interface representing options for the toReadableHtml function.
+ * Controls the behavior of HTML parsing and processing.
+ */
+export interface ReadableHtmlOptions {
+  /** The URL of the document being parsed */
+  url?: string;
+  /** Readability-specific parsing options */
+  readabilityOptions?: ReadabilityOptions;
+  /** Whether to remove HTML comments from the content (default: true) */
+  removeComments?: boolean;
+}
+
+/**
+ * Converts HTML content into a readable format by parsing and extracting the main content.
+ * Uses Mozilla's Readability library to extract article content and metadata.
+ *
+ * @param html - The raw HTML string to parse
+ * @param options - Configuration options for parsing and processing
+ * @returns Parsed readable content with metadata, or null if parsing fails
+ */
+export function toReadableHtml(html: string, options: ReadableHtmlOptions = {}) {
   const dom = toJsDOM(html, options);
 
   const readabilityOptions = {
@@ -70,11 +131,42 @@ export function toReadableHtml(html: string, options: {url?: string, readability
     maxElemsToParse: 100000,
     nbTopCandidates: 5,
     charThreshold: 500,
+    keepClasses: true,
     ...options.readabilityOptions,
     serializer: (el: any) => el,
   };
 
   const reader = new Readability(dom, readabilityOptions);
-  const article = reader.parse();
-  return article as ReadableHtmlResult|null;
+  const article = reader.parse() as ReadableHtmlResult|null;
+  const content = article?.content
+  if (content && options.removeComments !== false) {
+    removeCommentNodes(content)
+  }
+  return article;
+}
+
+/**
+ * Removes all comment nodes from the given element and its descendants.
+ *
+ * @param element - The root element from which to remove comment nodes
+ */
+function removeCommentNodes(element: Node): void {
+  // 在 JSDOM 环境中创建 TreeWalker
+  const walker = (element.ownerDocument || element as Document).createTreeWalker(
+    element,
+    128 // NodeFilter.SHOW_COMMENT
+  );
+
+  const commentNodes: Comment[] = [];
+  let node: Node | null;
+
+  // 收集所有注释节点
+  while (node = walker.nextNode()) {
+    commentNodes.push(node as Comment);
+  }
+
+  // 移除所有注释节点
+  commentNodes.forEach(comment => {
+    comment.remove();
+  });
 }

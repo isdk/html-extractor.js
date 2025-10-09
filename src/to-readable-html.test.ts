@@ -118,13 +118,14 @@ describe('toReadableHtml', () => {
     }
   });
 
-  describe('Complex HTML with AD and navigation elements', ()=>{
+  describe('Complex HTML with AD', ()=>{
     // 包含广告和导航栏的完整网页示例
     const htmlWithADAndNavigation = `
       <!DOCTYPE html>
       <html>
         <head>
           <title>科技新闻 - 首页</title>
+          <meta property="article:published_time" content="2023-06-15T14:30:00+08:00" />
         </head>
         <body>
           <!-- 顶部导航栏 -->
@@ -225,7 +226,7 @@ describe('toReadableHtml', () => {
       const result = toReadableHtml(htmlWithADAndNavigation, {
         url: 'https://technews.example.com/ai-medical-breakthrough',
         readabilityOptions: {
-          charThreshold: 100
+          charThreshold: 100,
         }
       });
 
@@ -256,6 +257,8 @@ describe('toReadableHtml', () => {
 
         // 验证包含作者和日期信息
         expect(result.byline).toContain('作者：张三');
+        expect(result.publishedTime).toBe('2023-06-15T14:30:00+08:00')
+        // readability 它会尝试从文章内容中提取一个句子作为摘要，因此包含了日期。这里的日期不是标准格式。标准格式是 `article:published_time` or `parsely-pub-date`
         expect(result.excerpt).toContain('2023-06-15');
         expect(result.textContent).toContain('2023-06-15');
 
