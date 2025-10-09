@@ -16,11 +16,13 @@ export interface TextContentResult {
   byline?: string|null;
   /** Optional length of the content in characters */
   length?: number|null;
+  /** The text direction (e.g., 'ltr' or 'rtl') */
   dir?: string | null;
   /** Optional name of the website/source */
   siteName?: string|null;
   /** Optional language code of the content */
   lang?: string|null;
+  /** The published time of the article in ISO format for metadata "article:published_time" or "parsely-pub-date" */
   publishedTime?: string | null;
   /** Indicates whether the extraction was successful */
   success: boolean;
@@ -31,7 +33,7 @@ export interface TextContentResult {
 /**
  * Converts HTML content to readable markdown format.
  *
- * This function takes raw HTML input and processes it through readability algorithms
+ * This function takes raw HTML input and processes it through readability algorithms from @mozilla/readability
  * to extract the main content, then converts that content to markdown format.
  * It handles error cases gracefully and returns structured result data.
  *
