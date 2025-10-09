@@ -1,5 +1,6 @@
 import { JSDOM } from 'jsdom';
 
+// 可以用 @mozilla/readability 的 isProbablyReaderable 来判断
 export function isLikelyTextContent(html: string): boolean {
   try {
     const dom = new JSDOM(html);
