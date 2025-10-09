@@ -16,12 +16,12 @@ export interface TextContentResult {
   byline?: string|null;
   /** Optional length of the content in characters */
   length?: number|null;
-  dir: string | null | undefined;
+  dir?: string | null;
   /** Optional name of the website/source */
   siteName?: string|null;
   /** Optional language code of the content */
   lang?: string|null;
-  publishedTime: string | null | undefined;
+  publishedTime?: string | null;
   /** Indicates whether the extraction was successful */
   success: boolean;
   /** Optional error message if extraction failed */
