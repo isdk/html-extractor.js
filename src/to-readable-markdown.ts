@@ -16,11 +16,12 @@ export async function toReadableMarkdown(
       throw new Error('Readability failed to extract content from HTML');
     }
 
-    const markdown = await htmlToMarkdown(article.content);
-    article.content = markdown;
+    const content = await htmlToMarkdown(article.content.innerHTML);
+    delete article.content;
 
     return {
       ...article as any,
+      content,
       success: true
     };
   } catch (error) {
