@@ -76,5 +76,5 @@ export function toReadableHtml(html: string, options: {url?: string, readability
 
   const reader = new Readability(dom, readabilityOptions);
   const article = reader.parse();
-  return article as ReadableHtmlResult;
+  return article as ReadableHtmlResult|null;
 }
