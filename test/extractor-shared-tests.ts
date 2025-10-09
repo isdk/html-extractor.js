@@ -375,7 +375,7 @@ export const createPerformanceTestData = () => {
             transform: (items: any[]) => items.length
           },
           averagePrice: {
-            type: 'number',
+            type: 'array',
             selector: '.price',
             multiple: true,
             transform: (prices: string[]) => {
