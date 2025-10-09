@@ -37,6 +37,34 @@ The library provides a unified entry function, `extractHtmlContent`, which autom
 ### 1. Extract Readable Markdown
 
 When `extractionRules` are not provided, it defaults to extracting the main article content and converting it to Markdown.
+The return value is an object containing the following properties:
+
+```ts
+export interface TextContentResult {
+ /** Optional title of the extracted content */
+  title?: string|null;
+  /** Main content text in markdown format */
+  content: string;
+  /** Optional excerpt/summary of the content */
+  excerpt?: string|null;
+  /** Optional byline/author information */
+  byline?: string|null;
+  /** Optional length of the content in characters */
+  length?: number|null;
+  /** The text direction (e.g., 'ltr' or 'rtl') */
+  dir?: string | null;
+  /** Optional name of the website/source */
+  siteName?: string|null;
+  /** Optional language code of the content */
+  lang?: string|null;
+  /** The published time of the article in ISO format for metadata "article:published_time" or "parsely-pub-date" */
+  publishedTime?: string | null;
+  /** Indicates whether the extraction was successful */
+  success: boolean;
+  /** Optional error message if extraction failed */
+  error?: string;
+}
+```
 
 ```typescript
 import { extractHtmlContent } from '@isdk/html-extractor';
@@ -60,9 +88,8 @@ const html = `
 
 async function main() {
   const result = await extractHtmlContent(html, { url: 'https://example.com' });
-  // When the result is a string, it indicates Markdown was extracted.
-  if (typeof result === 'string') {
-    console.log(result);
+  if (typeof result?.content === 'string') {
+    console.log(result.content);
   }
 }
 
