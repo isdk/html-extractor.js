@@ -56,7 +56,7 @@ export interface TextContentResult {
   siteName?: string|null;
   /** Optional language code of the content */
   lang?: string|null;
-  /** The published time of the article in ISO format for metadata "article:published_time" or "parsely-pub-date" */
+  /** The published time of the article in ISO format */
   publishedTime?: string | null;
   /** Indicates whether the extraction was successful */
   success: boolean;
@@ -87,9 +87,7 @@ const html = `
 
 async function main() {
   const result = await extractHtmlContent(html, { url: 'https://example.com' });
-  if (typeof result?.content === 'string') {
-    console.log(result.content);
-  }
+  if (result.success) console.log(result.content);
 }
 
 main();
@@ -142,8 +140,7 @@ const rules: ExtractionRule = {
 };
 
 async function main() {
-  // 注意：当提供 extractionRules 时，函数是同步的
-  const result = extractHtmlContent(html, { extractionRules: rules });
+  const result = await extractHtmlContent(html, { extractionRules: rules });
   console.log(JSON.stringify(result, null, 2));
 }
 
