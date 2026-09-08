@@ -24,6 +24,25 @@ it('htmlToMarkdown test list', async () => {
     .toEqual('* [x] `idoc.yml` 在根目录下添加\n* [x] `idoc.chapters.yml` 左侧栏文件导航\n* [x] `注释配置` 在 markdown 文档中添加的配置\n');
 });
 
+it('htmlToMarkdown test empty links', async () => {
+  // Default: empty-link text is wrapped in [ ] instead of emitting [text]() broken links
+  expect(await htmlToMarkdown(`<p>前 <a>无href链接</a> 后</p>`)).toEqual('前 [无href链接] 后\n');
+  expect(await htmlToMarkdown(`<p>前 <a href="">空href</a> 后</p>`)).toEqual('前 [空href] 后\n');
+  expect(await htmlToMarkdown(`<p>前 <a href="#">井号</a> 后</p>`)).toEqual('前 [井号] 后\n');
+  // A link with no text at all is dropped entirely
+  expect(await htmlToMarkdown(`<p>前 <a href="#"></a> 后</p>`)).toEqual('前 后\n');
+  // Nested inline formatting inside an empty link is preserved
+  expect(await htmlToMarkdown(`<p>前 <a><em>斜体</em>内容</a> 后</p>`)).toEqual('前 [*斜体*内容] 后\n');
+  // Real links, including real in-page anchors, are untouched
+  expect(await htmlToMarkdown(`<p>前 <a href="/x">正常</a> <a href="#section1">锚点</a> 后</p>`)).toEqual('前 [正常](/x) [锚点](#section1) 后\n');
+  // Custom delimiters
+  expect(await htmlToMarkdown(`<p>前 <a href="#">井号</a> 后</p>`, { emptyLinkBrackets: ['【', '】'] })).toEqual('前 【井号】 后\n');
+  // false restores the old broken-link behavior
+  expect(await htmlToMarkdown(`<p>前 <a href="#">井号</a> 后</p>`, { emptyLinkBrackets: false })).toEqual('前 [井号](#) 后\n');
+  // Literal brackets in normal text are still escaped as before
+  expect(await htmlToMarkdown(`<p>文字 [方括号] 文字</p>`)).toEqual('文字 \\[方括号] 文字\n');
+});
+
 const tableStr = `<table>
 <thead>
 <tr>

@@ -53,7 +53,9 @@ export async function toReadableMarkdown(
       throw new Error('Readability failed to extract content from HTML');
     }
 
-    const content = await htmlToMarkdown(article.content.innerHTML);
+    const content = await htmlToMarkdown(article.content.innerHTML, {
+      emptyLinkBrackets: options.emptyLinkBrackets,
+    });
     delete article.content;
 
     return {

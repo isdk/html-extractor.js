@@ -305,6 +305,110 @@ describe('toReadableHtml', () => {
     });
   });
 
+  describe('empty links', () => {
+    const htmlWithEmptyLinks = `
+      <!DOCTYPE html>
+      <html>
+        <head><title>空链接测试</title></head>
+        <body>
+          <article>
+            <h1>文章标题</h1>
+            <p>第一段包含一个<a href="#">死链</a>和一个<a href="">空链接</a>。</p>
+            <p>第二段包含一个<a>没有href的链接</a>。</p>
+            <p>第三段包含一个<a href="#section1">页内锚点</a>和一个<a href="/about">正常链接</a>。</p>
+            <p>第四段包含一个<a href="#">只读不点</a>。</p>
+            <p>第五段包含一个纯空<a></a>。</p>
+          </article>
+        </body>
+      </html>
+    `;
+
+    it('should keep empty links by default so they reach the markdown layer', () => {
+      const result = toReadableHtml(htmlWithEmptyLinks, { url: 'https://example.com/page' });
+
+      expect(result).toBeDefined();
+      expect(result).not.toBeNull();
+
+      const innerHTML = result!.content?.innerHTML || '';
+      // Empty links are kept by default: the markdown layer wraps their text in brackets
+      expect(innerHTML).toContain('<a href="#">死链</a>');
+      expect(innerHTML).toContain('<a href="">空链接</a>');
+      expect(innerHTML).toContain('<a>没有href的链接</a>');
+      // Real links are kept
+      expect(innerHTML).toContain('<a href="https://example.com/about">正常链接</a>');
+      // In-page anchors with a real target are kept
+      expect(innerHTML).toContain('<a href="#section1">页内锚点</a>');
+    });
+
+    it('should unwrap empty links when emptyLinks is "unwrap", keeping their text', () => {
+      const result = toReadableHtml(htmlWithEmptyLinks, { url: 'https://example.com/page', emptyLinks: 'unwrap' });
+
+      expect(result).toBeDefined();
+      expect(result).not.toBeNull();
+
+      const innerHTML = result!.content?.innerHTML || '';
+      // Empty links are unwrapped: text kept, no <a> wrapper
+      expect(innerHTML).toContain('死链');
+      expect(innerHTML).toContain('空链接');
+      expect(innerHTML).toContain('没有href的链接');
+      expect(innerHTML).not.toContain('<a href="#">死链</a>');
+      expect(innerHTML).not.toContain('<a href="">空链接</a>');
+      expect(innerHTML).not.toContain('<a>没有href的链接</a>');
+    });
+
+    it('should remove empty links entirely when emptyLinks is "remove"', () => {
+      const result = toReadableHtml(htmlWithEmptyLinks, {
+        url: 'https://example.com/page',
+        emptyLinks: 'remove',
+      });
+
+      expect(result).toBeDefined();
+      expect(result).not.toBeNull();
+
+      const innerHTML = result!.content?.innerHTML || '';
+      expect(innerHTML).not.toContain('死链');
+      expect(innerHTML).not.toContain('空链接');
+      expect(innerHTML).not.toContain('没有href的链接');
+      expect(innerHTML).not.toContain('只读不点');
+      // Real links are kept
+      expect(innerHTML).toContain('正常链接');
+      expect(innerHTML).toContain('页内锚点');
+    });
+
+    it('should keep empty links when emptyLinks is "keep"', () => {
+      const result = toReadableHtml(htmlWithEmptyLinks, {
+        url: 'https://example.com/page',
+        emptyLinks: 'keep',
+      });
+
+      expect(result).toBeDefined();
+      expect(result).not.toBeNull();
+
+      const innerHTML = result!.content?.innerHTML || '';
+      expect(innerHTML).toContain('<a href="#">死链</a>');
+      expect(innerHTML).toContain('<a href="">空链接</a>');
+      expect(innerHTML).toContain('<a>没有href的链接</a>');
+    });
+
+    it('should filter comments and empty links in a single pass', () => {
+      const htmlWithCommentsAndLinks = `
+        <article>
+          <!-- a comment -->
+          <p>段落内容<a href="#">死链</a><!-- another comment --></p>
+        </article>
+      `;
+      const result = toReadableHtml(htmlWithCommentsAndLinks, { emptyLinks: 'unwrap' });
+
+      expect(result).toBeDefined();
+      expect(result).not.toBeNull();
+
+      const innerHTML = result!.content?.innerHTML || '';
+      expect(innerHTML).not.toContain('<!--');
+      expect(innerHTML).toContain('死链');
+      expect(innerHTML).not.toContain('<a href="#">死链</a>');
+    });
+  });
+
   describe('relative URLs', ()=>{
     // 添加一个包含相对链接的测试用例
     const htmlWithRelativeLinks = `

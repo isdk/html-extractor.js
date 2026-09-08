@@ -212,6 +212,47 @@ describe('toReadableMarkdown', () => {
     expect(result.content).toContain('![Example Image](https://example.com/image.jpg)')
   })
 
+  it('should convert empty links to bracketed text in markdown', async () => {
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head><title>空链接测试</title></head>
+        <body>
+          <article>
+            <h1>文章标题</h1>
+            <p>第一段包含一个<a href="#">死链</a>和一个<a href="">空链接</a>。</p>
+            <p>第二段包含一个<a>没有href的链接</a>。</p>
+            <p>第三段包含一个<a href="#section1">页内锚点</a>和一个<a href="/about">正常链接</a>。</p>
+          </article>
+        </body>
+      </html>
+    `
+
+    // Default pipeline: empty links survive the HTML layer and become [text] in markdown
+    const result = await toReadableMarkdown(html, { url: 'https://example.com/page' })
+
+    expect(result.success).toBe(true)
+    expect(result.content).toContain('[死链]')
+    expect(result.content).toContain('[空链接]')
+    expect(result.content).toContain('[没有href的链接]')
+    expect(result.content).not.toMatch(/\]\(\)/)
+    expect(result.content).not.toContain('[](#)')
+    // Real links and real in-page anchors stay as markdown links
+    expect(result.content).toContain('[页内锚点](#section1)')
+    expect(result.content).toContain('[正常链接](https://example.com/about)')
+
+    // Custom delimiters flow through
+    const cjkResult = await toReadableMarkdown(html, { url: 'https://example.com/page', emptyLinkBrackets: ['【', '】'] })
+    expect(cjkResult.success).toBe(true)
+    expect(cjkResult.content).toContain('【死链】')
+
+    // emptyLinks: 'unwrap' keeps the text as plain text without brackets
+    const unwrappedResult = await toReadableMarkdown(html, { url: 'https://example.com/page', emptyLinks: 'unwrap' })
+    expect(unwrappedResult.success).toBe(true)
+    expect(unwrappedResult.content).toContain('死链')
+    expect(unwrappedResult.content).not.toContain('[死链]')
+  })
+
   it('should work with readability options', async () => {
     const html = `
       <!DOCTYPE html>

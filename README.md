@@ -20,6 +20,7 @@
   - Language and Text Direction (`lang`, `dir`)
   - Supports parsing from standard Meta tags, Open Graph, JSON-LD, and more.
 - **Automatic URL Handling**: During extraction, it automatically converts relative URLs (e.g., `/about`, `../img.png`) to absolute URLs based on a provided base URL.
+- **Empty Link Handling**: Placeholder links (`<a>` without `href`, or with `href=""`/`"#"`) are converted to bracketed text (e.g. `[text]`) instead of broken markdown links (`[text]()`), with configurable delimiters.
 - **Dual Extraction Engines**:
   - **HAST Extractor (Default)**: Based on the `unified/hast` ecosystem, it's fast, implemented in pure JavaScript, and doesn't require a browser environment.
   - **JSDOM Extractor**: Based on `jsdom`, it provides a simulated browser environment, supporting more complex selectors and DOM operations, but with higher performance overhead.
@@ -172,6 +173,8 @@ Converts HTML into readable Markdown with metadata.
 - `options` (ReadableHtmlOptions):
   - `url` (string): The base URL of the page, used to resolve relative links.
   - `readabilityOptions` (object): Custom options passed to `Readability.js`.
+  - `emptyLinks` (`'keep' | 'unwrap' | 'remove'`): What to do with empty links (`<a>` without `href`, or with `href=""`/`"#"`). Defaults to `'keep'` so they reach the markdown conversion. `'unwrap'` keeps the link text as plain text, `'remove'` drops them entirely. Links to real in-page anchors (e.g. `href="#section1"`) are never considered empty.
+  - `emptyLinkBrackets` (`[string, string] | false`): Delimiters wrapped around the text of empty links in the markdown output. Defaults to `['[', ']']` — e.g. `<a>text</a>` becomes `[text]`. Pass `false` to restore the old behavior of emitting broken markdown links (`[text]()`).
 
 **Returns** `Promise<TextContentResult>`:
 
@@ -189,6 +192,25 @@ interface TextContentResult {
   success: boolean;
   error?: string;
 }
+```
+
+#### Empty link handling
+
+An "empty link" is an `<a>` element whose `href` attribute is missing, empty, or `"#"` — typically a leftover from script-driven UI or placeholder markup. Converting such links with the default options produces `[text]` instead of a broken `[text]()` markdown link:
+
+```typescript
+const html = '<p>前 <a href="#">了解更多</a> 后 <a href="/about">关于我们</a></p>';
+
+const result = await extractHtmlContent(html, { url: 'https://example.com' });
+// => 前 [了解更多] 后 [关于我们](https://example.com/about)
+
+// Custom delimiters (e.g. for CJK content):
+await extractHtmlContent(html, { url: 'https://example.com', emptyLinkBrackets: ['【', '】'] });
+// => 前 【了解更多】 后 [关于我们](https://example.com/about)
+
+// Or unwrap empty links to plain text:
+await extractHtmlContent(html, { url: 'https://example.com', emptyLinks: 'unwrap' });
+// => 前 了解更多 后 [关于我们](https://example.com/about)
 ```
 
 ### `toStructured(html, options)`

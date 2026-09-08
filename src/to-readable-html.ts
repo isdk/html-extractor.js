@@ -103,6 +103,23 @@ export interface ReadabilityOptions {
 }
 
 /**
+ * The action to take on empty links found in the extracted content.
+ *
+ * An "empty link" is an `<a>` element whose `href` attribute is missing, empty,
+ * or `"#"` — i.e. a link that leads nowhere (typically a leftover from
+ * script-driven UI, navigation menus or placeholder markup).
+ *
+ * - `'unwrap'`: keep the link's inner content (text/children), drop the `<a>` wrapper.
+ *   This mirrors how Readability itself handles `javascript:` links.
+ * - `'remove'`: delete the whole `<a>` element including its content.
+ * - `'keep'`: leave empty links untouched (default). They survive into the
+ *   markdown conversion, where `htmlToMarkdown` wraps their text in
+ *   configurable delimiters (default `[文字]`) instead of emitting broken
+ *   `[文字]()` links.
+ */
+export type EmptyLinksAction = 'keep' | 'unwrap' | 'remove'
+
+/**
  * Interface representing options for the toReadableHtml function.
  * Controls the behavior of HTML parsing and processing.
  */
@@ -113,6 +130,22 @@ export interface ReadableHtmlOptions {
   readabilityOptions?: ReadabilityOptions;
   /** Whether to remove HTML comments from the content (default: true) */
   removeComments?: boolean;
+  /**
+   * Delimiters to wrap around the text of empty links in the markdown output
+   * (see `ToMarkdownOptions.emptyLinkBrackets`). Default: `['[', ']']`.
+   * Only used when converting to markdown; ignored by `toReadableHtml` itself.
+   */
+  emptyLinkBrackets?: [string, string] | false;
+  /**
+   * What to do with empty links (`<a>` without `href`, or with `href=""`/`"#"`).
+   * Defaults to `'keep'` so they reach the markdown conversion, where their
+   * text is wrapped in `emptyLinkBrackets` (default `[文字]`).
+   * Set to `'unwrap'` to keep the link text as plain text, or `'remove'` to
+   * drop empty links entirely.
+   * Note: links to in-page anchors with a real target (e.g. `href="#section1"`)
+   * are NOT considered empty and are always kept.
+   */
+  emptyLinks?: EmptyLinksAction;
 }
 
 /**
@@ -139,34 +172,94 @@ export function toReadableHtml(html: string, options: ReadableHtmlOptions = {}) 
   const reader = new Readability(dom, readabilityOptions);
   const article = reader.parse() as ReadableHtmlResult|null;
   const content = article?.content
-  if (content && options.removeComments !== false) {
-    removeCommentNodes(content)
+  if (content) {
+    cleanupContent(content, {
+      removeComments: options.removeComments !== false,
+      emptyLinks: options.emptyLinks ?? 'keep',
+    });
   }
   return article;
 }
 
+/** Options for the post-parse content cleanup pass. */
+interface CleanupOptions {
+  removeComments: boolean;
+  emptyLinks: EmptyLinksAction;
+}
+
 /**
- * Removes all comment nodes from the given element and its descendants.
+ * Cleans up the extracted content in a single traversal pass.
  *
- * @param element - The root element from which to remove comment nodes
+ * Handles both comment removal and empty-link filtering in one TreeWalker
+ * walk over the subtree, so the content tree is not traversed repeatedly.
+ *
+ * @param element - The root element of the extracted content
+ * @param opts - What to clean up
  */
-function removeCommentNodes(element: Node): void {
-  // 在 JSDOM 环境中创建 TreeWalker
-  const walker = (element.ownerDocument || element as Document).createTreeWalker(
+function cleanupContent(element: Element, opts: CleanupOptions): void {
+  const doc = element.ownerDocument || (element as unknown as Document);
+  const commentFilter = opts.removeComments ? 128 /* NodeFilter.SHOW_COMMENT */ : 0;
+  const linkFilter = opts.emptyLinks !== 'keep' ? 1 /* NodeFilter.SHOW_ELEMENT (a) */ : 0;
+  // No filters requested: nothing to do.
+  if (!commentFilter && !linkFilter) return;
+
+  const walker = doc.createTreeWalker(
     element,
-    128 // NodeFilter.SHOW_COMMENT
+    commentFilter | linkFilter,
   );
 
-  const commentNodes: Comment[] = [];
+  const toProcess: Array<{ node: Node; kind: 'comment' | 'link' }> = [];
   let node: Node | null;
-
-  // 收集所有注释节点
-  while (node = walker.nextNode()) {
-    commentNodes.push(node as Comment);
+  while ((node = walker.nextNode())) {
+    if (node.nodeType === 8 /* COMMENT_NODE */) {
+      if (commentFilter) toProcess.push({ node, kind: 'comment' });
+    } else if (node.nodeType === 1 /* ELEMENT_NODE */) {
+      if (linkFilter && isEmptyLink(node as Element)) {
+        toProcess.push({ node, kind: 'link' });
+      }
+    }
   }
 
-  // 移除所有注释节点
-  commentNodes.forEach(comment => {
-    comment.remove();
-  });
+  for (const { node, kind } of toProcess) {
+    if (kind === 'comment') {
+      (node as ChildNode).remove();
+    } else {
+      cleanupEmptyLink(node as HTMLAnchorElement, opts.emptyLinks);
+    }
+  }
+}
+
+/**
+ * Checks whether an `<a>` element is an "empty" link: no `href` attribute,
+ * an empty `href`, or a `href` of `"#"` (a dead placeholder anchor).
+ *
+ * Links to real in-page anchors (e.g. `"#section1"`) are not empty.
+ *
+ * @param link - The anchor element to check
+ * @returns True if the link leads nowhere and should be filtered
+ */
+function isEmptyLink(link: Element): boolean {
+  if (link.tagName !== 'A') return false;
+  const href = link.getAttribute('href');
+  return href === null || href === '' || href === '#';
+}
+
+/**
+ * Processes a single empty link according to the configured action.
+ *
+ * @param link - The empty anchor element
+ * @param action - Whether to unwrap (keep content) or remove (drop all)
+ */
+function cleanupEmptyLink(link: HTMLAnchorElement, action: EmptyLinksAction): void {
+  if (action === 'remove') {
+    link.remove();
+    return;
+  }
+  // 'unwrap': keep the inner content, drop the <a> wrapper.
+  const parent = link.parentNode;
+  if (!parent) return;
+  while (link.firstChild) {
+    parent.insertBefore(link.firstChild, link);
+  }
+  link.remove();
 }

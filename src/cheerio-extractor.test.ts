@@ -119,6 +119,7 @@ describe('CheerioHTMLExtractor', () => {
         </div>
       `;
       const schema: ExtractionRule = {
+        type: 'array',
         selector: '.item:has(.highlight)',
         multiple: true,
         items: { type: 'string' },
@@ -137,6 +138,7 @@ describe('CheerioHTMLExtractor', () => {
         </div>
       `;
       const schema: ExtractionRule = {
+        type: 'array',
         selector: '.item:not(.active)',
         multiple: true,
         items: { type: 'string' },
@@ -180,6 +182,7 @@ describe('CheerioHTMLExtractor', () => {
         </div>
       `;
       const schema: ExtractionRule = {
+        type: 'array',
         selector: '.article',
         multiple: true,
         items: {
@@ -220,10 +223,12 @@ describe('CheerioHTMLExtractor', () => {
         </div>
       `;
       const schema: ExtractionRule = {
+        type: 'object',
         selector: '.profile',
         properties: {
           name: { type: 'string', selector: '.name' },
           details: {
+            type: 'object',
             selector: '.details',
             properties: {
               age: { type: 'number', selector: '.age' },
@@ -284,6 +289,7 @@ describe('CheerioHTMLExtractor', () => {
         <div data-status="inactive">Inactive Item</div>
       `;
       const schema: ExtractionRule = {
+        type: 'array',
         selector: '[data-status="active"]',
         multiple: true,
       };
