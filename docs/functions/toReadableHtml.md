@@ -6,9 +6,9 @@
 
 # Function: toReadableHtml()
 
-> **toReadableHtml**(`html`, `options`): `null` \| [`ReadableHtmlResult`](../interfaces/ReadableHtmlResult.md)
+> **toReadableHtml**(`html`, `options?`): [`ReadableHtmlResult`](../interfaces/ReadableHtmlResult.md) \| `null`
 
-Defined in: [to-readable-html.ts:126](https://github.com/isdk/html-extractor.js/blob/03c7744f8cdba6c993e1072972ef3a0f111ee64d/src/to-readable-html.ts#L126)
+Defined in: [to-readable-html.ts:159](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L159)
 
 Converts HTML content into a readable format by parsing and extracting the main content.
 Uses Mozilla's Readability library to extract article content and metadata.
@@ -21,7 +21,7 @@ Uses Mozilla's Readability library to extract article content and metadata.
 
 The raw HTML string to parse
 
-### options
+### options?
 
 [`ReadableHtmlOptions`](../interfaces/ReadableHtmlOptions.md) = `{}`
 
@@ -29,6 +29,6 @@ Configuration options for parsing and processing
 
 ## Returns
 
-`null` \| [`ReadableHtmlResult`](../interfaces/ReadableHtmlResult.md)
+[`ReadableHtmlResult`](../interfaces/ReadableHtmlResult.md) \| `null`
 
 Parsed readable content with metadata, or null if parsing fails

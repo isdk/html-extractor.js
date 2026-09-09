@@ -6,9 +6,9 @@
 
 # Function: toReadableMarkdown()
 
-> **toReadableMarkdown**(`html`, `options`): `Promise`\<[`TextContentResult`](../interfaces/TextContentResult.md)\>
+> **toReadableMarkdown**(`html`, `options?`): `Promise`\<[`TextContentResult`](../interfaces/TextContentResult.md)\>
 
-Defined in: [to-readable-markdown.ts:45](https://github.com/isdk/html-extractor.js/blob/03c7744f8cdba6c993e1072972ef3a0f111ee64d/src/to-readable-markdown.ts#L45)
+Defined in: [to-readable-markdown.ts:45](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L45)
 
 Converts HTML content to readable markdown format.
 
@@ -24,7 +24,7 @@ It handles error cases gracefully and returns structured result data.
 
 The HTML string to convert to readable markdown
 
-### options
+### options?
 
 [`ReadableHtmlOptions`](../interfaces/ReadableHtmlOptions.md) = `{}`
 

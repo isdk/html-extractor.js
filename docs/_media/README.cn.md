@@ -20,6 +20,7 @@
   - 语言和文字方向 (`lang`, `dir`)
   - 支持从标准 Meta 标签、Open Graph、JSON-LD 等多种来源解析。
 - **URL 自动处理**: 在提取过程中，自动将相对 URL（如 `/about`, `../img.png`）根据提供的基准 URL 转换为绝对 URL。
+- **空链接处理**: 占位链接（无 `href`，或 `href=""`/`"#"` 的 `<a>`）会被转换为带括号的文本（如 `[文字]`），而不是错误的 markdown 链接（`[文字]()`），括号符可自定义。
 - **双提取引擎**:
   - **HAST Extractor (默认)**: 基于 `unified/hast` 生态，速度快，纯 JavaScript 实现，无需浏览器环境。
   - **JSDOM Extractor**: 基于 `jsdom`，提供一个模拟的浏览器环境，支持更复杂的选择器和 DOM 操作，但性能开销更大。
@@ -36,7 +37,34 @@ npm install @isdk/html-extractor
 
 ### 1. 提取可读的 Markdown
 
-当不提供 `extractionRules` 时，默认提取文章正文并转换为 Markdown。
+当不提供 `extractionRules` 时，默认提取文章正文并转换为 Markdown, 返回结果是包含内容和metadata对象，包含以下字段：
+
+```ts
+export interface TextContentResult {
+ /** Optional title of the extracted content */
+  title?: string|null;
+  /** Main content text in markdown format */
+  content: string;
+  /** Optional excerpt/summary of the content */
+  excerpt?: string|null;
+  /** Optional byline/author information */
+  byline?: string|null;
+  /** Optional length of the content in characters */
+  length?: number|null;
+  /** The text direction (e.g., 'ltr' or 'rtl') */
+  dir?: string | null;
+  /** Optional name of the website/source */
+  siteName?: string|null;
+  /** Optional language code of the content */
+  lang?: string|null;
+  /** The published time of the article in ISO format */
+  publishedTime?: string | null;
+  /** Indicates whether the extraction was successful */
+  success: boolean;
+  /** Optional error message if extraction failed */
+  error?: string;
+}
+```
 
 ```typescript
 import { extractHtmlContent } from '@isdk/html-extractor';
@@ -60,10 +88,7 @@ const html = `
 
 async function main() {
   const result = await extractHtmlContent(html, { url: 'https://example.com' });
-  // 当 result 是字符串时，表示提取的是 Markdown
-  if (typeof result === 'string') {
-    console.log(result);
-  }
+  if (result.success) console.log(result.content);
 }
 
 main();
@@ -116,8 +141,7 @@ const rules: ExtractionRule = {
 };
 
 async function main() {
-  // 注意：当提供 extractionRules 时，函数是同步的
-  const result = extractHtmlContent(html, { extractionRules: rules });
+  const result = await extractHtmlContent(html, { extractionRules: rules });
   console.log(JSON.stringify(result, null, 2));
 }
 
@@ -148,6 +172,8 @@ main();
 - `options` (ReadableHtmlOptions):
   - `url` (string): 页面的基准 URL，用于解析相对链接。
   - `readabilityOptions` (object): 传递给 `Readability.js` 的自定义选项。
+  - `emptyLinks` (`'keep' | 'unwrap' | 'remove'`): 如何处理空链接（无 `href`，或 `href=""`/`"#"` 的 `<a>`）。默认为 `'keep'`，让空链接进入 markdown 转换。`'unwrap'` 将链接文字保留为纯文本，`'remove'` 则完全删除。指向真实页内锚点的链接（如 `href="#section1"`）永远不会被视为空链接。
+  - `emptyLinkBrackets` (`[string, string] | false`): 在 markdown 输出中包裹空链接文字的括号符。默认为 `['[', ']']` —— 例如 `<a>文字</a>` 会变成 `[文字]`。传入 `false` 可恢复旧行为，即输出错误的 markdown 链接（`[文字]()`）。
 
 **返回** `Promise<TextContentResult>`:
 
@@ -165,6 +191,25 @@ interface TextContentResult {
   success: boolean;
   error?: string;
 }
+```
+
+#### 空链接处理
+
+「空链接」是指 `href` 属性缺失、为空或为 `"#"` 的 `<a>` 元素 —— 通常是脚本驱动的 UI 或占位标记的残留。使用默认选项转换时，这类链接会输出为 `[文字]`，而不是错误的 `[文字]()` markdown 链接：
+
+```typescript
+const html = '<p>前 <a href="#">了解更多</a> 后 <a href="/about">关于我们</a></p>';
+
+const result = await extractHtmlContent(html, { url: 'https://example.com' });
+// => 前 [了解更多] 后 [关于我们](https://example.com/about)
+
+// 自定义括号符（例如中文内容）:
+await extractHtmlContent(html, { url: 'https://example.com', emptyLinkBrackets: ['【', '】'] });
+// => 前 【了解更多】 后 [关于我们](https://example.com/about)
+
+// 或者将空链接还原为纯文本:
+await extractHtmlContent(html, { url: 'https://example.com', emptyLinks: 'unwrap' });
+// => 前 了解更多 后 [关于我们](https://example.com/about)
 ```
 
 ### `toStructured(html, options)`

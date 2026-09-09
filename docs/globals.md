@@ -26,6 +26,7 @@
 
 ## Type Aliases
 
+- [EmptyLinksAction](type-aliases/EmptyLinksAction.md)
 - [ExtractionRule](type-aliases/ExtractionRule.md)
 - [ExtractionRuleType](type-aliases/ExtractionRuleType.md)
 

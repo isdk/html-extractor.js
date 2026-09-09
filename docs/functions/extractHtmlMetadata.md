@@ -6,9 +6,9 @@
 
 # Function: extractHtmlMetadata()
 
-> **extractHtmlMetadata**(`htmlContent`, `options`): `HtmlMetadata`
+> **extractHtmlMetadata**(`htmlContent`, `options?`): `HtmlMetadata`
 
-Defined in: [extract-html-metadata.ts:46](https://github.com/isdk/html-extractor.js/blob/03c7744f8cdba6c993e1072972ef3a0f111ee64d/src/extract-html-metadata.ts#L46)
+Defined in: [extract-html-metadata.ts:46](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extract-html-metadata.ts#L46)
 
 Extracts metadata from HTML content, following the logic of Readability.js.
 
@@ -16,11 +16,11 @@ Extracts metadata from HTML content, following the logic of Readability.js.
 
 ### htmlContent
 
+`string` \| `Root`
+
 The HTML string or parsed AST to extract metadata from
 
-`string` | `Root`
-
-### options
+### options?
 
 `ExtractOptions` = `{}`
 

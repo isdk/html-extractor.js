@@ -24,6 +24,7 @@
   - Language and Text Direction (`lang`, `dir`)
   - Supports parsing from standard Meta tags, Open Graph, JSON-LD, and more.
 - **Automatic URL Handling**: During extraction, it automatically converts relative URLs (e.g., `/about`, `../img.png`) to absolute URLs based on a provided base URL.
+- **Empty Link Handling**: Placeholder links (`<a>` without `href`, or with `href=""`/`"#"`) are converted to bracketed text (e.g. `[text]`) instead of broken markdown links (`[text]()`), with configurable delimiters.
 - **Dual Extraction Engines**:
   - **HAST Extractor (Default)**: Based on the `unified/hast` ecosystem, it's fast, implemented in pure JavaScript, and doesn't require a browser environment.
   - **JSDOM Extractor**: Based on `jsdom`, it provides a simulated browser environment, supporting more complex selectors and DOM operations, but with higher performance overhead.
@@ -41,6 +42,34 @@ The library provides a unified entry function, `extractHtmlContent`, which autom
 ### 1. Extract Readable Markdown
 
 When `extractionRules` are not provided, it defaults to extracting the main article content and converting it to Markdown.
+The return value is an object containing the following properties:
+
+```ts
+export interface TextContentResult {
+ /** Optional title of the extracted content */
+  title?: string|null;
+  /** Main content text in markdown format */
+  content: string;
+  /** Optional excerpt/summary of the content */
+  excerpt?: string|null;
+  /** Optional byline/author information */
+  byline?: string|null;
+  /** Optional length of the content in characters */
+  length?: number|null;
+  /** The text direction (e.g., 'ltr' or 'rtl') */
+  dir?: string | null;
+  /** Optional name of the website/source */
+  siteName?: string|null;
+  /** Optional language code of the content */
+  lang?: string|null;
+  /** The published time of the article in ISO format */
+  publishedTime?: string | null;
+  /** Indicates whether the extraction was successful */
+  success: boolean;
+  /** Optional error message if extraction failed */
+  error?: string;
+}
+```
 
 ```typescript
 import { extractHtmlContent } from '@isdk/html-extractor';
@@ -64,10 +93,7 @@ const html = `
 
 async function main() {
   const result = await extractHtmlContent(html, { url: 'https://example.com' });
-  // When the result is a string, it indicates Markdown was extracted.
-  if (typeof result === 'string') {
-    console.log(result);
-  }
+  if (result.success) console.log(result.content);
 }
 
 main();
@@ -120,8 +146,7 @@ const rules: ExtractionRule = {
 };
 
 async function main() {
-  // Note: When providing extractionRules, the function is synchronous.
-  const result = extractHtmlContent(html, { extractionRules: rules });
+  const result = await extractHtmlContent(html, { extractionRules: rules });
   console.log(JSON.stringify(result, null, 2));
 }
 
@@ -152,6 +177,8 @@ Converts HTML into readable Markdown with metadata.
 - `options` (ReadableHtmlOptions):
   - `url` (string): The base URL of the page, used to resolve relative links.
   - `readabilityOptions` (object): Custom options passed to `Readability.js`.
+  - `emptyLinks` (`'keep' | 'unwrap' | 'remove'`): What to do with empty links (`<a>` without `href`, or with `href=""`/`"#"`). Defaults to `'keep'` so they reach the markdown conversion. `'unwrap'` keeps the link text as plain text, `'remove'` drops them entirely. Links to real in-page anchors (e.g. `href="#section1"`) are never considered empty.
+  - `emptyLinkBrackets` (`[string, string] | false`): Delimiters wrapped around the text of empty links in the markdown output. Defaults to `['[', ']']` — e.g. `<a>text</a>` becomes `[text]`. Pass `false` to restore the old behavior of emitting broken markdown links (`[text]()`).
 
 **Returns** `Promise<TextContentResult>`:
 
@@ -169,6 +196,25 @@ interface TextContentResult {
   success: boolean;
   error?: string;
 }
+```
+
+#### Empty link handling
+
+An "empty link" is an `<a>` element whose `href` attribute is missing, empty, or `"#"` — typically a leftover from script-driven UI or placeholder markup. Converting such links with the default options produces `[text]` instead of a broken `[text]()` markdown link:
+
+```typescript
+const html = '<p>前 <a href="#">了解更多</a> 后 <a href="/about">关于我们</a></p>';
+
+const result = await extractHtmlContent(html, { url: 'https://example.com' });
+// => 前 [了解更多] 后 [关于我们](https://example.com/about)
+
+// Custom delimiters (e.g. for CJK content):
+await extractHtmlContent(html, { url: 'https://example.com', emptyLinkBrackets: ['【', '】'] });
+// => 前 【了解更多】 后 [关于我们](https://example.com/about)
+
+// Or unwrap empty links to plain text:
+await extractHtmlContent(html, { url: 'https://example.com', emptyLinks: 'unwrap' });
+// => 前 了解更多 后 [关于我们](https://example.com/about)
 ```
 
 ### `toStructured(html, options)`
