@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.2.0](https://github.com///compare/v0.1.1...v0.2.0) (2026-09-09)
+
+### ⚠ BREAKING CHANGES
+
+* extract BaseHTMLExtractor from them
+
+### Features
+
+* extract BaseHTMLExtractor from them ([ebb6cf0](https://github.com///commit/ebb6cf0b4aeb4850f6344abc94c05890ca641a0a))
+* handle empty links with configurable markdown brackets ([368d1f4](https://github.com///commit/368d1f45806ed629eca4ee24ecaeac8a1513b1b7))
+
+### Bug Fixes
+
+* **doc:** the return value of extractHtmlContent description ([10d00c2](https://github.com///commit/10d00c227ff8987f6879f25f735e3f4ae48068fb))
+* **ts:** import vfile Compatible type ([f0b6d00](https://github.com///commit/f0b6d00f27925f938372035849c300c038779920))
 ## 0.1.1 (2025-10-09)
 
 
