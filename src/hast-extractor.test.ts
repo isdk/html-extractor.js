@@ -1,3 +1,4 @@
+import { beforeEach, describe, test, expect } from 'vitest';
 import { HastHTMLExtractor } from './hast-extractor'
 import type { ExtractionRule } from './extractor-types'
 

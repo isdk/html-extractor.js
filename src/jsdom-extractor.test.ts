@@ -1,4 +1,5 @@
 // jsdom-extractor.test.ts
+import { afterEach, beforeEach, describe, test, expect } from 'vitest';
 import { JSDOMHTMLExtractor } from './jsdom-extractor'
 import { ExtractionRule } from './extractor-types'
 

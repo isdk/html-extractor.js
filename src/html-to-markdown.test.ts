@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest';
 import { htmlToMarkdown } from './html-to-markdown';
 
 it('htmlToMarkdown test case basic-syntax', async () => {
