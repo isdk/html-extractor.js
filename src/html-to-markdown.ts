@@ -1,5 +1,5 @@
 // extract from https://github.com/jaywcjlove/html-to-markdown-cli/blob/main/packages/html-to-markdown/src/index.ts
-import { unified, PluggableList } from 'unified';
+import { unified, PluggableList, Processor } from 'unified';
 import rehypeParse, { Options as RehypeParseOptions } from 'rehype-parse';
 import rehypeRemark from 'rehype-remark';
 import remarkStringify from 'remark-stringify';
@@ -8,7 +8,7 @@ import rehypeFormat from 'rehype-format';
 import remarkGfm from 'remark-gfm';
 import rehypeVideo from 'rehype-video';
 import { defaultHandlers, type Options as ToMdastOptions } from 'hast-util-to-mdast';
-import { type Processor, type Compatible } from 'unified/lib';
+import type { Compatible } from 'vfile'
 
 /**
  * The default delimiters wrapped around the text of an empty link
