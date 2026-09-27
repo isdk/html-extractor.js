@@ -113,9 +113,9 @@ export interface ReadabilityOptions {
  *   This mirrors how Readability itself handles `javascript:` links.
  * - `'remove'`: delete the whole `<a>` element including its content.
  * - `'keep'`: leave empty links untouched (default). They survive into the
- *   markdown conversion, where `htmlToMarkdown` wraps their text in
- *   configurable delimiters (default `[文字]`) instead of emitting broken
- *   `[文字]()` links.
+ *   markdown conversion, where the `remove-empty-links` plugin from
+ *   `@isdk/mdast-plus` wraps their text in configurable delimiters
+ *   (default `[文字]`) instead of emitting broken `[文字]()` links.
  */
 export type EmptyLinksAction = 'keep' | 'unwrap' | 'remove'
 

@@ -1,5 +1,6 @@
-import { htmlToMarkdown } from './html-to-markdown'
 import { ReadableHtmlOptions, toReadableHtml } from './to-readable-html';
+import { htmlExtractorRehypePlugins } from './domain-plugins';
+import { mdast, htmlReadabilityPlugin, removeEmptyLinksPlugin } from '@isdk/mdast-plus';
 
 /**
  * Interface defining the structure of text content extraction results.
@@ -33,9 +34,20 @@ export interface TextContentResult {
 /**
  * Converts HTML content to readable markdown format.
  *
- * This function takes raw HTML input and processes it through readability algorithms from @mozilla/readability
- * to extract the main content, then converts that content to markdown format.
- * It handles error cases gracefully and returns structured result data.
+ * The article is extracted exactly once: `toReadableHtml` runs Readability
+ * and applies DOM-level cleanups (comments, empty links), then hands the
+ * result to `@isdk/mdast-plus` via the readability plugin's `article`
+ * injection hook. The mdast-plus pipeline performs the hast conversion,
+ * empty-link cleanup and markdown serialization — this package only
+ * contributes its domain enhancements (see `htmlExtractorRehypePlugins`)
+ * on top.
+ *
+ * @remarks
+ * The cleaned DOM subtree is serialized to an HTML string before injection:
+ * it lives in the extraction JSDOM, while the conversion pipeline parses its
+ * input in a separate JSDOM. Passing the live `Element` instead would make
+ * the conversion consume the *uncleaned* input, silently dropping the
+ * `emptyLinks`/`removeComments` cleanups.
  *
  * @param html - The HTML string to convert to readable markdown
  * @param options - Configuration options for HTML readability processing (optional)
@@ -47,16 +59,31 @@ export async function toReadableMarkdown(
     options: ReadableHtmlOptions = {}
 ): Promise<TextContentResult> {
   try {
+    // Extraction pass: Readability + DOM cleanup (this package's domain).
     const article = toReadableHtml(html, options)
 
     if (!article || !article.content) {
       throw new Error('Readability failed to extract content from HTML');
     }
 
-    const content = await htmlToMarkdown(article.content.innerHTML, {
-      emptyLinkBrackets: options.emptyLinkBrackets,
-    });
-    delete article.content;
+    // Conversion pass: serialize the cleaned DOM subtree to HTML, then inject
+    // it as the article into the mdast-plus readability plugin — no second
+    // Readability parse happens. (Serializing first is required: the cleaned
+    // DOM lives in the extraction JSDOM, and the conversion pipeline parses
+    // the input string in its own JSDOM, so passing the live Element would
+    // silently convert the *uncleaned* input instead.)
+    const cleanedHtml = article.content.innerHTML
+    const content = await mdast(cleanedHtml)
+      .from('html')
+      .use(htmlExtractorRehypePlugins)
+      .useAt(htmlReadabilityPlugin, {
+        article: { ...article, content: cleanedHtml },
+        url: options.url,
+      } as any)
+      .use(removeEmptyLinksPlugin, options.emptyLinkBrackets === false
+        ? { brackets: false }
+        : { brackets: options.emptyLinkBrackets ?? ['[', ']'] })
+      .toMarkdown();
 
     return {
       ...article as any,

@@ -275,9 +275,9 @@ An extraction rule is an object that describes how to find and transform data fr
 
 ## Markdown Conversion
 
-Markdown output is powered by [`@isdk/mdast-plus`](https://github.com/isdk/mdast-plus.js), the underlying Markdown toolkit. This package contributes its domain-specific enhancements (video link recognition, `<!-- html ignore -->` blocks) on top of that pipeline, and no longer maintains its own HTML-to-Markdown conversion.
+Markdown output is powered by [`@isdk/mdast-plus`](https://github.com/isdk/mdast-plus.js), the underlying Markdown toolkit. This package runs Readability exactly once, applies its DOM-level cleanups, then injects the cleaned article into the mdast-plus readability plugin (its `article` hook) — the mdast-plus pipeline performs hast conversion, empty-link cleanup and markdown serialization, with this package's domain enhancements (video link recognition, `<!-- html ignore -->` blocks) mounted on top. No private HTML-to-Markdown conversion is maintained here.
 
-The public API (`toReadableMarkdown`, `extractHtmlContent`, `emptyLinkBrackets`, `emptyLinks`) is unchanged. Empty-link cleanup is now handled by the `remove-empty-links` plugin from `@isdk/mdast-plus` (see its README for standalone usage outside extraction).
+The public API (`toReadableMarkdown`, `extractHtmlContent`, `emptyLinkBrackets`, `emptyLinks`) is unchanged. Empty-link cleanup is handled by the `remove-empty-links` plugin from `@isdk/mdast-plus` (see its README for standalone usage outside extraction).
 
 ## License
 

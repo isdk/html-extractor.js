@@ -274,9 +274,9 @@ interface HtmlMetadata {
 
 ## Markdown 转换
 
-Markdown 输出由底层工具包 [`@isdk/mdast-plus`](https://github.com/isdk/mdast-plus.js) 驱动。本包在该管线之上贡献领域相关的增强（视频链接识别、`<!-- html ignore -->` 块），不再自行维护 HTML 到 Markdown 的转换。
+Markdown 输出由底层工具包 [`@isdk/mdast-plus`](https://github.com/isdk/mdast-plus.js) 驱动。本包只运行一次 Readability 并完成 DOM 级清理，随后通过其 readability 插件的 `article` 注入钩子将清理后的文章交给 mdast-plus——由该管线完成 hast 转换、空链接清理与 Markdown 序列化，本包的领域增强（视频链接识别、`<!-- html ignore -->` 块）挂载其上。这里不再维护私有的 HTML 到 Markdown 转换。
 
-公开 API（`toReadableMarkdown`、`extractHtmlContent`、`emptyLinkBrackets`、`emptyLinks`）保持不变。空链接清理现由 `@isdk/mdast-plus` 的 `remove-empty-links` 插件处理（独立于抽取使用时请参阅其 README）。
+公开 API（`toReadableMarkdown`、`extractHtmlContent`、`emptyLinkBrackets`、`emptyLinks`）保持不变。空链接清理由 `@isdk/mdast-plus` 的 `remove-empty-links` 插件处理（独立于抽取使用时请参阅其 README）。
 
 ## 许可证
 
