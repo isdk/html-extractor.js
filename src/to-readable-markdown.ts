@@ -57,7 +57,7 @@ export interface TextContentResult {
  */
 export async function toReadableMarkdown(
     html: string,
-    options: ReadableHtmlOptions = {}
+    options: ReadableHtmlOptions & {attachMetadata?: boolean} = {}
 ): Promise<TextContentResult> {
   try {
     // Extraction pass: Readability + DOM cleanup (this package's domain).
@@ -84,7 +84,7 @@ export async function toReadableMarkdown(
       .use(removeEmptyLinksPlugin, options.emptyLinkBrackets === false
         ? { brackets: false }
         : { brackets: options.emptyLinkBrackets ?? ['[', ']'] })
-      .toMarkdown();
+      .toMarkdown({ attachMetadata: options.attachMetadata });
 
     return {
       ...article as any,
