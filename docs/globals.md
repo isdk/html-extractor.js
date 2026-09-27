@@ -20,6 +20,7 @@
 - [ReadabilityOptions](interfaces/ReadabilityOptions.md)
 - [ReadableHtmlOptions](interfaces/ReadableHtmlOptions.md)
 - [ReadableHtmlResult](interfaces/ReadableHtmlResult.md)
+- [ReadableMarkdownOptions](interfaces/ReadableMarkdownOptions.md)
 - [StringExtractionRule](interfaces/StringExtractionRule.md)
 - [StructuredOptions](interfaces/StructuredOptions.md)
 - [TextContentResult](interfaces/TextContentResult.md)

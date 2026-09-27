@@ -28,7 +28,7 @@ The URL to set as the href for the <base> tag.
 
 > **ensureBaseUrl**(`html`, `baseUrl`, `options?`): `string` \| `undefined`
 
-Defined in: [ensure-base-url.ts:13](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/ensure-base-url.ts#L13)
+Defined in: [html-extractor/src/ensure-base-url.ts:13](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/ensure-base-url.ts#L13)
 
 Ensures a <base> tag exists in an HTML string.
 
@@ -60,7 +60,7 @@ A new HTML string with the <base> tag, or undefined if no changes were made.
 
 > **ensureBaseUrl**(`tree`, `baseUrl`, `options?`): `Root` \| `undefined`
 
-Defined in: [ensure-base-url.ts:20](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/ensure-base-url.ts#L20)
+Defined in: [html-extractor/src/ensure-base-url.ts:20](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/ensure-base-url.ts#L20)
 
 Ensures a <base> tag exists in a HAST tree.
 

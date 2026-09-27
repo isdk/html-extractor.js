@@ -6,7 +6,7 @@
 
 # Interface: ArrayExtractionRule
 
-Defined in: [extractor-types.ts:32](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L32)
+Defined in: [html-extractor/src/extractor-types.ts:32](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L32)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [extractor-types.ts:32](https://github.com/isdk/html-extractor.js/bl
 
 > `optional` **attribute?**: `string`
 
-Defined in: [extractor-types.ts:13](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L13)
+Defined in: [html-extractor/src/extractor-types.ts:13](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L13)
 
 #### Inherited from
 
@@ -30,7 +30,7 @@ Defined in: [extractor-types.ts:13](https://github.com/isdk/html-extractor.js/bl
 
 > `optional` **default?**: `any`
 
-Defined in: [extractor-types.ts:16](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L16)
+Defined in: [html-extractor/src/extractor-types.ts:16](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L16)
 
 #### Inherited from
 
@@ -42,7 +42,7 @@ Defined in: [extractor-types.ts:16](https://github.com/isdk/html-extractor.js/bl
 
 > `optional` **items?**: [`ExtractionRule`](../type-aliases/ExtractionRule.md)
 
-Defined in: [extractor-types.ts:34](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L34)
+Defined in: [html-extractor/src/extractor-types.ts:34](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L34)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [extractor-types.ts:34](https://github.com/isdk/html-extractor.js/bl
 
 > `optional` **multiple?**: `boolean`
 
-Defined in: [extractor-types.ts:14](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L14)
+Defined in: [html-extractor/src/extractor-types.ts:14](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L14)
 
 #### Inherited from
 
@@ -62,7 +62,7 @@ Defined in: [extractor-types.ts:14](https://github.com/isdk/html-extractor.js/bl
 
 > `optional` **required?**: `boolean`
 
-Defined in: [extractor-types.ts:15](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L15)
+Defined in: [html-extractor/src/extractor-types.ts:15](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L15)
 
 #### Inherited from
 
@@ -74,7 +74,7 @@ Defined in: [extractor-types.ts:15](https://github.com/isdk/html-extractor.js/bl
 
 > `optional` **selector?**: `string`
 
-Defined in: [extractor-types.ts:11](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L11)
+Defined in: [html-extractor/src/extractor-types.ts:11](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L11)
 
 #### Inherited from
 
@@ -86,7 +86,7 @@ Defined in: [extractor-types.ts:11](https://github.com/isdk/html-extractor.js/bl
 
 > `optional` **transform?**: (`value`, `element?`) => `any`
 
-Defined in: [extractor-types.ts:17](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L17)
+Defined in: [html-extractor/src/extractor-types.ts:17](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L17)
 
 #### Parameters
 
@@ -112,7 +112,7 @@ Defined in: [extractor-types.ts:17](https://github.com/isdk/html-extractor.js/bl
 
 > **type**: `"array"`
 
-Defined in: [extractor-types.ts:33](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/extractor-types.ts#L33)
+Defined in: [html-extractor/src/extractor-types.ts:33](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/extractor-types.ts#L33)
 
 #### Overrides
 

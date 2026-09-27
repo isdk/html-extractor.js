@@ -6,7 +6,7 @@
 
 # Class: HastHTMLExtractor
 
-Defined in: [hast-extractor.ts:10](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L10)
+Defined in: [html-extractor/src/hast-extractor.ts:10](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L10)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [hast-extractor.ts:10](https://github.com/isdk/html-extractor.js/blo
 
 > **new HastHTMLExtractor**(`options?`): `HastHTMLExtractor`
 
-Defined in: [hast-extractor.ts:14](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L14)
+Defined in: [html-extractor/src/hast-extractor.ts:14](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L14)
 
 #### Parameters
 
@@ -42,7 +42,7 @@ Defined in: [hast-extractor.ts:14](https://github.com/isdk/html-extractor.js/blo
 
 > **elementToHtml**(`element`): `string`
 
-Defined in: [hast-extractor.ts:74](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L74)
+Defined in: [html-extractor/src/hast-extractor.ts:74](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L74)
 
 #### Parameters
 
@@ -64,7 +64,7 @@ Defined in: [hast-extractor.ts:74](https://github.com/isdk/html-extractor.js/blo
 
 > **extract**(`html`, `schema`, `options?`): [`ExtractionResult`](../interfaces/ExtractionResult.md)
 
-Defined in: [base-extractor.ts:23](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L23)
+Defined in: [html-extractor/src/base-extractor.ts:23](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L23)
 
 #### Parameters
 
@@ -94,7 +94,7 @@ Defined in: [base-extractor.ts:23](https://github.com/isdk/html-extractor.js/blo
 
 > `protected` **extractArray**(`context`, `schema`): `any`[] \| `null`
 
-Defined in: [base-extractor.ts:136](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L136)
+Defined in: [html-extractor/src/base-extractor.ts:136](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L136)
 
 #### Parameters
 
@@ -120,7 +120,7 @@ Defined in: [base-extractor.ts:136](https://github.com/isdk/html-extractor.js/bl
 
 > **extractAttribute**(`element`, `attributeName`): `string` \| `undefined`
 
-Defined in: [hast-extractor.ts:58](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L58)
+Defined in: [html-extractor/src/hast-extractor.ts:58](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L58)
 
 #### Parameters
 
@@ -146,7 +146,7 @@ Defined in: [hast-extractor.ts:58](https://github.com/isdk/html-extractor.js/blo
 
 > `protected` **extractAuto**(`context`, `schema`): `any`
 
-Defined in: [base-extractor.ts:185](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L185)
+Defined in: [html-extractor/src/base-extractor.ts:185](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L185)
 
 #### Parameters
 
@@ -172,7 +172,7 @@ Defined in: [base-extractor.ts:185](https://github.com/isdk/html-extractor.js/bl
 
 > `protected` **extractBoolean**(`context`, `schema`): `boolean` \| `null`
 
-Defined in: [base-extractor.ts:109](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L109)
+Defined in: [html-extractor/src/base-extractor.ts:109](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L109)
 
 #### Parameters
 
@@ -198,7 +198,7 @@ Defined in: [base-extractor.ts:109](https://github.com/isdk/html-extractor.js/bl
 
 > `protected` **extractNumber**(`context`, `schema`): `number` \| `null`
 
-Defined in: [base-extractor.ts:83](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L83)
+Defined in: [html-extractor/src/base-extractor.ts:83](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L83)
 
 #### Parameters
 
@@ -224,7 +224,7 @@ Defined in: [base-extractor.ts:83](https://github.com/isdk/html-extractor.js/blo
 
 > `protected` **extractObject**(`context`, `schema`): `Record`\<`string`, `any`\> \| `null`
 
-Defined in: [base-extractor.ts:157](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L157)
+Defined in: [html-extractor/src/base-extractor.ts:157](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L157)
 
 #### Parameters
 
@@ -250,7 +250,7 @@ Defined in: [base-extractor.ts:157](https://github.com/isdk/html-extractor.js/bl
 
 > `protected` **extractString**(`context`, `schema`): `string` \| `null` \| `undefined`
 
-Defined in: [base-extractor.ts:60](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L60)
+Defined in: [html-extractor/src/base-extractor.ts:60](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L60)
 
 #### Parameters
 
@@ -276,7 +276,7 @@ Defined in: [base-extractor.ts:60](https://github.com/isdk/html-extractor.js/blo
 
 > **extractText**(`element`): `string`
 
-Defined in: [hast-extractor.ts:44](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L44)
+Defined in: [html-extractor/src/hast-extractor.ts:44](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L44)
 
 #### Parameters
 
@@ -298,7 +298,7 @@ Defined in: [hast-extractor.ts:44](https://github.com/isdk/html-extractor.js/blo
 
 > **getAttributes**(`element`): `Record`\<`string`, `any`\>
 
-Defined in: [hast-extractor.ts:83](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L83)
+Defined in: [html-extractor/src/hast-extractor.ts:83](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L83)
 
 #### Parameters
 
@@ -320,7 +320,7 @@ Defined in: [hast-extractor.ts:83](https://github.com/isdk/html-extractor.js/blo
 
 > `protected` **handleMissingValue**(`schema`): `any`
 
-Defined in: [base-extractor.ts:201](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L201)
+Defined in: [html-extractor/src/base-extractor.ts:201](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L201)
 
 #### Parameters
 
@@ -342,7 +342,7 @@ Defined in: [base-extractor.ts:201](https://github.com/isdk/html-extractor.js/bl
 
 > `protected` **inferSchemaType**(`schema`): `"string"` \| `"number"` \| `"boolean"` \| `"object"` \| `"array"`
 
-Defined in: [base-extractor.ts:195](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L195)
+Defined in: [html-extractor/src/base-extractor.ts:195](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L195)
 
 #### Parameters
 
@@ -364,7 +364,7 @@ Defined in: [base-extractor.ts:195](https://github.com/isdk/html-extractor.js/bl
 
 > **parse**(`html`): `Node`
 
-Defined in: [hast-extractor.ts:20](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L20)
+Defined in: [html-extractor/src/hast-extractor.ts:20](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L20)
 
 #### Parameters
 
@@ -386,7 +386,7 @@ Defined in: [hast-extractor.ts:20](https://github.com/isdk/html-extractor.js/blo
 
 > `protected` **parseBooleanValue**(`value`): `boolean`
 
-Defined in: [base-extractor.ts:131](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L131)
+Defined in: [html-extractor/src/base-extractor.ts:131](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L131)
 
 #### Parameters
 
@@ -408,7 +408,7 @@ Defined in: [base-extractor.ts:131](https://github.com/isdk/html-extractor.js/bl
 
 > `protected` **processSchema**(`context`, `schema`): `any`
 
-Defined in: [base-extractor.ts:29](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/base-extractor.ts#L29)
+Defined in: [html-extractor/src/base-extractor.ts:29](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/base-extractor.ts#L29)
 
 #### Parameters
 
@@ -434,7 +434,7 @@ Defined in: [base-extractor.ts:29](https://github.com/isdk/html-extractor.js/blo
 
 > **selectElement**(`context`, `schema`): `Element` \| `undefined`
 
-Defined in: [hast-extractor.ts:24](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L24)
+Defined in: [html-extractor/src/hast-extractor.ts:24](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L24)
 
 #### Parameters
 
@@ -460,7 +460,7 @@ Defined in: [hast-extractor.ts:24](https://github.com/isdk/html-extractor.js/blo
 
 > **selectElements**(`context`, `schema`): `Element`[]
 
-Defined in: [hast-extractor.ts:34](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/hast-extractor.ts#L34)
+Defined in: [html-extractor/src/hast-extractor.ts:34](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/hast-extractor.ts#L34)
 
 #### Parameters
 

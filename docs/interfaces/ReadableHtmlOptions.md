@@ -6,10 +6,14 @@
 
 # Interface: ReadableHtmlOptions
 
-Defined in: [to-readable-html.ts:126](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L126)
+Defined in: [html-extractor/src/to-readable-html.ts:126](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L126)
 
 Interface representing options for the toReadableHtml function.
 Controls the behavior of HTML parsing and processing.
+
+## Extended by
+
+- [`ReadableMarkdownOptions`](ReadableMarkdownOptions.md)
 
 ## Properties
 
@@ -17,7 +21,7 @@ Controls the behavior of HTML parsing and processing.
 
 > `optional` **emptyLinkBrackets?**: `false` \| \[`string`, `string`\]
 
-Defined in: [to-readable-html.ts:138](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L138)
+Defined in: [html-extractor/src/to-readable-html.ts:138](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L138)
 
 Delimiters to wrap around the text of empty links in the markdown output
 (see `ToMarkdownOptions.emptyLinkBrackets`). Default: `['[', ']']`.
@@ -29,7 +33,7 @@ Only used when converting to markdown; ignored by `toReadableHtml` itself.
 
 > `optional` **emptyLinks?**: [`EmptyLinksAction`](../type-aliases/EmptyLinksAction.md)
 
-Defined in: [to-readable-html.ts:148](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L148)
+Defined in: [html-extractor/src/to-readable-html.ts:148](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L148)
 
 What to do with empty links (`<a>` without `href`, or with `href=""`/`"#"`).
 Defaults to `'keep'` so they reach the markdown conversion, where their
@@ -45,7 +49,7 @@ are NOT considered empty and are always kept.
 
 > `optional` **readabilityOptions?**: [`ReadabilityOptions`](ReadabilityOptions.md)
 
-Defined in: [to-readable-html.ts:130](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L130)
+Defined in: [html-extractor/src/to-readable-html.ts:130](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L130)
 
 Readability-specific parsing options
 
@@ -55,7 +59,7 @@ Readability-specific parsing options
 
 > `optional` **removeComments?**: `boolean`
 
-Defined in: [to-readable-html.ts:132](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L132)
+Defined in: [html-extractor/src/to-readable-html.ts:132](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L132)
 
 Whether to remove HTML comments from the content (default: true)
 
@@ -65,6 +69,6 @@ Whether to remove HTML comments from the content (default: true)
 
 > `optional` **url?**: `string`
 
-Defined in: [to-readable-html.ts:128](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L128)
+Defined in: [html-extractor/src/to-readable-html.ts:128](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L128)
 
 The URL of the document being parsed

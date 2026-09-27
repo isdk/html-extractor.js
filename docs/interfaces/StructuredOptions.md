@@ -6,7 +6,7 @@
 
 # Interface: StructuredOptions
 
-Defined in: [to-structured.ts:4](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-structured.ts#L4)
+Defined in: [html-extractor/src/to-structured.ts:4](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-structured.ts#L4)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [to-structured.ts:4](https://github.com/isdk/html-extractor.js/blob/
 
 > **extractionRules**: [`ExtractionRule`](../type-aliases/ExtractionRule.md)
 
-Defined in: [to-structured.ts:6](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-structured.ts#L6)
+Defined in: [html-extractor/src/to-structured.ts:6](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-structured.ts#L6)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [to-structured.ts:6](https://github.com/isdk/html-extractor.js/blob/
 
 > `optional` **extractorOptions?**: `any`
 
-Defined in: [to-structured.ts:5](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-structured.ts#L5)
+Defined in: [html-extractor/src/to-structured.ts:5](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-structured.ts#L5)

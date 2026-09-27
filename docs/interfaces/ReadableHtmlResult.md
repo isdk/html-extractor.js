@@ -6,7 +6,7 @@
 
 # Interface: ReadableHtmlResult
 
-Defined in: [to-readable-html.ts:56](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L56)
+Defined in: [html-extractor/src/to-readable-html.ts:56](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L56)
 
 Interface representing the result of the readable HTML parsing operation.
 Contains various metadata and content extracted from the parsed document.
@@ -17,7 +17,7 @@ Contains various metadata and content extracted from the parsed document.
 
 > `optional` **byline?**: `string` \| `null`
 
-Defined in: [to-readable-html.ts:68](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L68)
+Defined in: [html-extractor/src/to-readable-html.ts:68](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L68)
 
 The author byline information
 
@@ -27,7 +27,7 @@ The author byline information
 
 > `optional` **content?**: `Element` \| `null`
 
-Defined in: [to-readable-html.ts:60](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L60)
+Defined in: [html-extractor/src/to-readable-html.ts:60](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L60)
 
 The main content element of the parsed document
 
@@ -37,7 +37,7 @@ The main content element of the parsed document
 
 > `optional` **dir?**: `string` \| `null`
 
-Defined in: [to-readable-html.ts:70](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L70)
+Defined in: [html-extractor/src/to-readable-html.ts:70](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L70)
 
 The text direction (e.g., 'ltr' or 'rtl')
 
@@ -47,7 +47,7 @@ The text direction (e.g., 'ltr' or 'rtl')
 
 > `optional` **excerpt?**: `string` \| `null`
 
-Defined in: [to-readable-html.ts:66](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L66)
+Defined in: [html-extractor/src/to-readable-html.ts:66](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L66)
 
 A short excerpt or summary of the content
 
@@ -57,7 +57,7 @@ A short excerpt or summary of the content
 
 > `optional` **lang?**: `string` \| `null`
 
-Defined in: [to-readable-html.ts:74](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L74)
+Defined in: [html-extractor/src/to-readable-html.ts:74](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L74)
 
 The language of the document
 
@@ -67,7 +67,7 @@ The language of the document
 
 > `optional` **length?**: `number` \| `null`
 
-Defined in: [to-readable-html.ts:64](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L64)
+Defined in: [html-extractor/src/to-readable-html.ts:64](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L64)
 
 The length of the text content
 
@@ -77,7 +77,7 @@ The length of the text content
 
 > `optional` **publishedTime?**: `string` \| `null`
 
-Defined in: [to-readable-html.ts:76](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L76)
+Defined in: [html-extractor/src/to-readable-html.ts:76](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L76)
 
 The published time of the article in ISO format for "article:published_time" or "parsely-pub-date"
 
@@ -87,7 +87,7 @@ The published time of the article in ISO format for "article:published_time" or 
 
 > `optional` **siteName?**: `string` \| `null`
 
-Defined in: [to-readable-html.ts:72](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L72)
+Defined in: [html-extractor/src/to-readable-html.ts:72](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L72)
 
 The name of the website or publication
 
@@ -97,7 +97,7 @@ The name of the website or publication
 
 > `optional` **textContent?**: `string` \| `null`
 
-Defined in: [to-readable-html.ts:62](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L62)
+Defined in: [html-extractor/src/to-readable-html.ts:62](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L62)
 
 The text content of the parsed document
 
@@ -107,6 +107,6 @@ The text content of the parsed document
 
 > `optional` **title?**: `string` \| `null`
 
-Defined in: [to-readable-html.ts:58](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L58)
+Defined in: [html-extractor/src/to-readable-html.ts:58](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L58)
 
 The title of the article or document

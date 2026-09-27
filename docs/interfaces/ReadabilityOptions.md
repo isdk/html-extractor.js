@@ -6,7 +6,7 @@
 
 # Interface: ReadabilityOptions
 
-Defined in: [to-readable-html.ts:84](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L84)
+Defined in: [html-extractor/src/to-readable-html.ts:84](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L84)
 
 Interface representing configuration options for the Readability parser.
 These options control how the content is parsed and extracted.
@@ -17,7 +17,7 @@ These options control how the content is parsed and extracted.
 
 > `optional` **allowedVideoRegex?**: `RegExp`
 
-Defined in: [to-readable-html.ts:102](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L102)
+Defined in: [html-extractor/src/to-readable-html.ts:102](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L102)
 
 Regular expression to match allowed video sources
 
@@ -27,7 +27,7 @@ Regular expression to match allowed video sources
 
 > `optional` **charThreshold?**: `number`
 
-Defined in: [to-readable-html.ts:92](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L92)
+Defined in: [html-extractor/src/to-readable-html.ts:92](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L92)
 
 Minimum character threshold for content
 
@@ -37,7 +37,7 @@ Minimum character threshold for content
 
 > `optional` **classesToPreserve?**: `string`[]
 
-Defined in: [to-readable-html.ts:94](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L94)
+Defined in: [html-extractor/src/to-readable-html.ts:94](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L94)
 
 Array of CSS class names to preserve during parsing
 
@@ -47,7 +47,7 @@ Array of CSS class names to preserve during parsing
 
 > `optional` **debug?**: `boolean`
 
-Defined in: [to-readable-html.ts:86](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L86)
+Defined in: [html-extractor/src/to-readable-html.ts:86](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L86)
 
 Enable or disable debug logging
 
@@ -57,7 +57,7 @@ Enable or disable debug logging
 
 > `optional` **disableJSONLD?**: `boolean`
 
-Defined in: [to-readable-html.ts:100](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L100)
+Defined in: [html-extractor/src/to-readable-html.ts:100](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L100)
 
 Disable JSON-LD metadata extraction
 
@@ -67,7 +67,7 @@ Disable JSON-LD metadata extraction
 
 > `optional` **keepClasses?**: `boolean`
 
-Defined in: [to-readable-html.ts:96](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L96)
+Defined in: [html-extractor/src/to-readable-html.ts:96](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L96)
 
 Whether to keep CSS classes in the output
 
@@ -77,7 +77,7 @@ Whether to keep CSS classes in the output
 
 > `optional` **maxElemsToParse?**: `number`
 
-Defined in: [to-readable-html.ts:88](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L88)
+Defined in: [html-extractor/src/to-readable-html.ts:88](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L88)
 
 Maximum number of elements to parse before giving up
 
@@ -87,7 +87,7 @@ Maximum number of elements to parse before giving up
 
 > `optional` **nbTopCandidates?**: `number`
 
-Defined in: [to-readable-html.ts:90](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L90)
+Defined in: [html-extractor/src/to-readable-html.ts:90](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L90)
 
 Number of top candidate elements to consider
 
@@ -97,7 +97,7 @@ Number of top candidate elements to consider
 
 > `optional` **serializer?**: (`node`) => `string`
 
-Defined in: [to-readable-html.ts:98](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L98)
+Defined in: [html-extractor/src/to-readable-html.ts:98](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L98)
 
 Custom serializer function for nodes
 

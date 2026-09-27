@@ -6,7 +6,7 @@
 
 # Interface: TextContentResult
 
-Defined in: [to-readable-markdown.ts:8](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L8)
+Defined in: [html-extractor/src/to-readable-markdown.ts:14](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L14)
 
 Interface defining the structure of text content extraction results.
 Contains various metadata fields along with the main content and success status.
@@ -17,7 +17,7 @@ Contains various metadata fields along with the main content and success status.
 
 > `optional` **byline?**: `string` \| `null`
 
-Defined in: [to-readable-markdown.ts:16](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L16)
+Defined in: [html-extractor/src/to-readable-markdown.ts:22](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L22)
 
 Optional byline/author information
 
@@ -27,7 +27,7 @@ Optional byline/author information
 
 > **content**: `string`
 
-Defined in: [to-readable-markdown.ts:12](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L12)
+Defined in: [html-extractor/src/to-readable-markdown.ts:18](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L18)
 
 Main content text in markdown format
 
@@ -37,7 +37,7 @@ Main content text in markdown format
 
 > `optional` **dir?**: `string` \| `null`
 
-Defined in: [to-readable-markdown.ts:20](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L20)
+Defined in: [html-extractor/src/to-readable-markdown.ts:26](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L26)
 
 The text direction (e.g., 'ltr' or 'rtl')
 
@@ -47,7 +47,7 @@ The text direction (e.g., 'ltr' or 'rtl')
 
 > `optional` **error?**: `string`
 
-Defined in: [to-readable-markdown.ts:30](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L30)
+Defined in: [html-extractor/src/to-readable-markdown.ts:36](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L36)
 
 Optional error message if extraction failed
 
@@ -57,7 +57,7 @@ Optional error message if extraction failed
 
 > `optional` **excerpt?**: `string` \| `null`
 
-Defined in: [to-readable-markdown.ts:14](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L14)
+Defined in: [html-extractor/src/to-readable-markdown.ts:20](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L20)
 
 Optional excerpt/summary of the content
 
@@ -67,7 +67,7 @@ Optional excerpt/summary of the content
 
 > `optional` **lang?**: `string` \| `null`
 
-Defined in: [to-readable-markdown.ts:24](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L24)
+Defined in: [html-extractor/src/to-readable-markdown.ts:30](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L30)
 
 Optional language code of the content
 
@@ -77,7 +77,7 @@ Optional language code of the content
 
 > `optional` **length?**: `number` \| `null`
 
-Defined in: [to-readable-markdown.ts:18](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L18)
+Defined in: [html-extractor/src/to-readable-markdown.ts:24](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L24)
 
 Optional length of the content in characters
 
@@ -87,7 +87,7 @@ Optional length of the content in characters
 
 > `optional` **publishedTime?**: `string` \| `null`
 
-Defined in: [to-readable-markdown.ts:26](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L26)
+Defined in: [html-extractor/src/to-readable-markdown.ts:32](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L32)
 
 The published time of the article in ISO format for metadata "article:published_time" or "parsely-pub-date"
 
@@ -97,7 +97,7 @@ The published time of the article in ISO format for metadata "article:published_
 
 > `optional` **siteName?**: `string` \| `null`
 
-Defined in: [to-readable-markdown.ts:22](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L22)
+Defined in: [html-extractor/src/to-readable-markdown.ts:28](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L28)
 
 Optional name of the website/source
 
@@ -107,7 +107,7 @@ Optional name of the website/source
 
 > **success**: `boolean`
 
-Defined in: [to-readable-markdown.ts:28](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L28)
+Defined in: [html-extractor/src/to-readable-markdown.ts:34](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L34)
 
 Indicates whether the extraction was successful
 
@@ -117,6 +117,6 @@ Indicates whether the extraction was successful
 
 > `optional` **title?**: `string` \| `null`
 
-Defined in: [to-readable-markdown.ts:10](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-markdown.ts#L10)
+Defined in: [html-extractor/src/to-readable-markdown.ts:16](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-markdown.ts#L16)
 
 Optional title of the extracted content

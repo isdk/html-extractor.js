@@ -8,7 +8,7 @@
 
 > **EmptyLinksAction** = `"keep"` \| `"unwrap"` \| `"remove"`
 
-Defined in: [to-readable-html.ts:120](https://github.com/isdk/html-extractor.js/blob/a6824871f6957cd0d8334373ee57b69eeb0a1dbd/src/to-readable-html.ts#L120)
+Defined in: [html-extractor/src/to-readable-html.ts:120](https://github.com/isdk/html-extractor.js/blob/c68e49d8a52abb81111b68c9f48199bc7e88b269/src/to-readable-html.ts#L120)
 
 The action to take on empty links found in the extracted content.
 
@@ -20,6 +20,6 @@ script-driven UI, navigation menus or placeholder markup).
   This mirrors how Readability itself handles `javascript:` links.
 - `'remove'`: delete the whole `<a>` element including its content.
 - `'keep'`: leave empty links untouched (default). They survive into the
-  markdown conversion, where `htmlToMarkdown` wraps their text in
-  configurable delimiters (default `[文字]`) instead of emitting broken
-  `[文字]()` links.
+  markdown conversion, where the `remove-empty-links` plugin from
+  `@isdk/mdast-plus` wraps their text in configurable delimiters
+  (default `[文字]`) instead of emitting broken `[文字]()` links.
