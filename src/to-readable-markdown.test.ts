@@ -117,6 +117,45 @@ describe('toReadableMarkdown', () => {
     expect(result.publishedTime).toBe('2023-01-01T00:00:00Z')
   })
 
+  it('should inject frontmatter when requested', async () => {
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Long Page</title>
+          <meta name="author" content="Jane Doe">
+          <meta property="article:published_time" content="2023-01-01T00:00:00Z">
+        </head>
+        <body>
+          <article>
+            <h1>Main Title</h1>
+            <p>Some long content here.</p>
+          </article>
+        </body>
+      </html>
+    `
+
+    const result = await toReadableMarkdown(html, {
+      frontmatter: true,
+      fields: {
+        title: 'title',
+        description: 'description',
+        author: 'byline',
+        publishedTime: 'published_time',
+      },
+      attachMetadata: true,
+    })
+
+    expect(result.success).toBe(true)
+    expect(result.title).toBe('Long Page')
+    // attachMetadata: true returns content as a String object with metadata attached
+    const md = String(result.content)
+    // Frontmatter must be prepended to the serialized markdown,
+    // with the fields projection applied (publishedTime -> published_time)
+    expect(md).toMatch(/^---\ntitle: Long Page\npublished_time: 2023-01-01T00:00:00Z\n---\n/)
+    expect(md).toContain('## Main Title')
+  })
+
   it('should handle HTML with no article content', async () => {
     const html = `
       <!DOCTYPE html>

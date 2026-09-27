@@ -1,6 +1,6 @@
 import { ReadableHtmlOptions, toReadableHtml } from './to-readable-html';
 import { htmlExtractorRehypePlugins } from './domain-plugins';
-import { mdast, htmlReadabilityPlugin, removeEmptyLinksPlugin, type ReadabilityOptions } from '@isdk/mdast-plus';
+import { mdast, htmlReadabilityPlugins, removeEmptyLinksPlugin, type ReadabilityOptions } from '@isdk/mdast-plus';
 import { pick } from 'lodash-es';
 
 export interface ReadableMarkdownOptions extends ReadableHtmlOptions, ReadabilityOptions {
@@ -81,7 +81,11 @@ export async function toReadableMarkdown(
     const content = await mdast(cleanedHtml)
       .from('html')
       .use(htmlExtractorRehypePlugins)
-      .useAt(htmlReadabilityPlugin, {
+      // htmlReadabilityPlugins = htmlReadabilityPlugin (parse) +
+      // restoreReadabilityMetaPlugin (runs after rehype-remark). The latter is
+      // what actually injects the frontmatter/sourceLink — passing the array
+      // keeps both in sync instead of mounting only the parser half.
+      .useAt(htmlReadabilityPlugins, {
         ...pick(options, ['url', 'frontmatter', 'sourceLink', 'smartExcerpt', 'fields', 'extraMetadata']),
         article: { ...article, content: cleanedHtml },
       } as any)
