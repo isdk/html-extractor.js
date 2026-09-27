@@ -57,7 +57,7 @@ export interface TextContentResult {
  */
 export async function toReadableMarkdown(
     html: string,
-    options: ReadableHtmlOptions & {attachMetadata?: boolean} = {}
+    options: ReadableHtmlOptions = {}
 ): Promise<TextContentResult> {
   try {
     // Extraction pass: Readability + DOM cleanup (this package's domain).

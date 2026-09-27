@@ -146,6 +146,7 @@ export interface ReadableHtmlOptions {
    * are NOT considered empty and are always kept.
    */
   emptyLinks?: EmptyLinksAction;
+  attachMetadata?: boolean;
 }
 
 /**
