@@ -272,6 +272,12 @@ interface HtmlMetadata {
 | `properties` | `Record<string, ExtractionRule>` | **(仅用于 `type: 'object'`)** 一个对象，其键是输出对象的属性名，值是用于提取该属性的嵌套规则。 |
 | `items` | `ExtractionRule` | **(仅用于 `type: 'array'`)** 一个规则对象，用于处理由 `selector` 选中的每个元素。 |
 
+## Markdown 转换
+
+Markdown 输出由底层工具包 [`@isdk/mdast-plus`](https://github.com/isdk/mdast-plus.js) 驱动。本包在该管线之上贡献领域相关的增强（视频链接识别、`<!-- html ignore -->` 块），不再自行维护 HTML 到 Markdown 的转换。
+
+公开 API（`toReadableMarkdown`、`extractHtmlContent`、`emptyLinkBrackets`、`emptyLinks`）保持不变。空链接清理现由 `@isdk/mdast-plus` 的 `remove-empty-links` 插件处理（独立于抽取使用时请参阅其 README）。
+
 ## 许可证
 
 [MIT](./LICENSE-MIT)

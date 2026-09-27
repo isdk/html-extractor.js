@@ -1,20 +1,27 @@
-// extract from https://github.com/jaywcjlove/html-to-markdown-cli/blob/main/packages/html-to-markdown/src/index.ts
-import { unified, PluggableList, Processor } from 'unified';
-import rehypeParse, { Options as RehypeParseOptions } from 'rehype-parse';
-import rehypeRemark from 'rehype-remark';
-import remarkStringify from 'remark-stringify';
+// Markdown conversion implemented on top of @isdk/mdast-plus.
+// Originally extracted from
+// https://github.com/jaywcjlove/html-to-markdown-cli/blob/main/packages/html-to-markdown/src/index.ts
+// and now refactored to reuse the mdast-plus pipeline (the underlying
+// toolkit) instead of maintaining a private unified pipeline here.
+import type { Compatible } from 'vfile';
+import type { Options as RehypeParseOptions } from 'rehype-parse';
+import rehypeVideo from 'rehype-video';
 import rehypeIgnore from 'rehype-ignore';
 import rehypeFormat from 'rehype-format';
-import remarkGfm from 'remark-gfm';
-import rehypeVideo from 'rehype-video';
-import { defaultHandlers, type Options as ToMdastOptions } from 'hast-util-to-mdast';
-import type { Compatible } from 'vfile'
+
+import {
+  DefaultEmptyLinkBrackets,
+  PipelineStage,
+  mdast,
+  removeEmptyLinksPlugin,
+  type MdastPlugin,
+} from '@isdk/mdast-plus';
 
 /**
  * The default delimiters wrapped around the text of an empty link
  * (an `<a>` without `href`, or with `href=""`/`"#"`) when converted to markdown.
  */
-export const DefaultEmptyLinkBrackets: [string, string] = ['[', ']']
+export { DefaultEmptyLinkBrackets } from '@isdk/mdast-plus';
 
 export type ToMarkdownOptions = {
   url?: string
@@ -36,69 +43,37 @@ export type ToMarkdownOptions = {
    * List of [remark plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins) to use.
    * See the next section for examples on how to pass options
    */
-  remarkPlugins?: PluggableList;
+  remarkPlugins?: any[];
   /**
    * List of [rehype plugins](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins) to use.
    * See the next section for examples on how to pass options
    */
-  rehypePlugins?: PluggableList;
-  unified?: Processor;
+  rehypePlugins?: any[];
+  unified?: unknown;
 }
 
 /**
- * Checks whether an `<a>` element is an "empty" link: no `href` attribute,
- * an empty `href`, or a `href` of `"#"` (a dead placeholder anchor).
- *
- * Links to real in-page anchors (e.g. `"#section1"`) are not empty.
+ * Domain (rehype) plugins for the HTML extraction domain: video link
+ * recognition, `<!-- html ignore -->` blocks and HTML normalization.
+ * They operate on hast so they must run in the parse stage, before
+ * `rehype-remark` converts the tree to mdast.
  */
-function isEmptyLinkHref(node: { properties?: Record<string, unknown> | null }): boolean {
-  const href = node.properties?.href;
-  return href == null || href === '' || href === '#';
-}
-
-/**
- * Builds a custom `a` handler for rehype-remark that wraps the text of empty
- * links in configurable delimiters (default `[` `]`) instead of emitting a
- * markdown link with an empty destination (`[text]()`), which renders as a
- * broken link. Real links (including `#section` anchors) are delegated to the
- * default handler unchanged.
- */
-function createEmptyLinkHandler(brackets: [string, string] | false): ToMdastOptions['handlers'] {
-  if (brackets === false) return undefined;
-  const [open, close] = brackets;
-  return {
-    a(state, node) {
-      if (!isEmptyLinkHref(node)) {
-        return defaultHandlers.a(state, node);
-      }
-      const children = state.all(node);
-      if (!children.length) return []; // no text at all: drop the link
-      // The delimiters are emitted as raw html nodes so remark-stringify
-      // passes them through unescaped (literal `[` in text would be escaped
-      // to `\[`, and plain text delimiters would break GFM link syntax).
-      return [
-        { type: 'html', value: open },
-        ...children,
-        { type: 'html', value: close },
-      ];
-    },
-  };
-}
+const htmlExtractorRehypePlugins: MdastPlugin[] = [
+  { plugin: rehypeIgnore, stage: PipelineStage.parse, before: 'rehype-remark' },
+  { plugin: rehypeVideo, stage: PipelineStage.parse, before: 'rehype-remark' },
+  { plugin: rehypeFormat, stage: PipelineStage.parse, before: 'rehype-remark' },
+];
 
 // 在 html 中 有一个 `<base>` 标签，用来改变链接的基准路径，eg, `<base href="https://example.com">`
 export async function htmlToMarkdown(html?: Compatible, options: ToMarkdownOptions = {}) {
   const { rehypeParseOption, remarkPlugins = [], rehypePlugins = [], emptyLinkBrackets = DefaultEmptyLinkBrackets } = options;
 
-  const file = await unified()
-    .use(rehypeParse, { fragment: true, ...rehypeParseOption })
-    .use(rehypeIgnore)
-    .use(remarkGfm)
-    .use(rehypeVideo)
-    .use(rehypeFormat)
-    .use(rehypePlugins || [])
-    .use(rehypeRemark, { handlers: createEmptyLinkHandler(emptyLinkBrackets) }) // html to markdown
-    .use(remarkPlugins || [])
-    .use(remarkStringify)
-    .process(html);
-  return String(file);
+  const pipeline = mdast(html).from('html', rehypeParseOption ? { 'rehype-parse': rehypeParseOption } : undefined).use(htmlExtractorRehypePlugins);
+
+  pipeline.useAt(removeEmptyLinksPlugin, { brackets: emptyLinkBrackets });
+
+  if (rehypePlugins?.length) pipeline.use(rehypePlugins);
+  if (remarkPlugins?.length) pipeline.useAt(PipelineStage.compile, remarkPlugins);
+
+  return pipeline.toMarkdown();
 }

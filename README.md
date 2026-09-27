@@ -273,6 +273,12 @@ An extraction rule is an object that describes how to find and transform data fr
 | `properties` | `Record<string, ExtractionRule>` | **(For `type: 'object'` only)** An object where keys are the property names of the output object and values are nested rules for extracting those properties. |
 | `items` | `ExtractionRule` | **(For `type: 'array'` only)** A rule object to process each element selected by the `selector`. |
 
+## Markdown Conversion
+
+Markdown output is powered by [`@isdk/mdast-plus`](https://github.com/isdk/mdast-plus.js), the underlying Markdown toolkit. This package contributes its domain-specific enhancements (video link recognition, `<!-- html ignore -->` blocks) on top of that pipeline, and no longer maintains its own HTML-to-Markdown conversion.
+
+The public API (`toReadableMarkdown`, `extractHtmlContent`, `emptyLinkBrackets`, `emptyLinks`) is unchanged. Empty-link cleanup is now handled by the `remove-empty-links` plugin from `@isdk/mdast-plus` (see its README for standalone usage outside extraction).
+
 ## License
 
 [MIT](./LICENSE-MIT)
