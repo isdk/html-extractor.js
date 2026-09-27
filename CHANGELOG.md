@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.3.0](https://github.com///compare/v0.2.0...v0.3.0) (2026-09-27)
+
+### ⚠ BREAKING CHANGES
+
+* reuse @isdk/mdast-plus for HTML-to-Markdown conversion
+
+### Bug Fixes
+
+* **toReadableMarkdown:** should pass more options to htmlReadabilityPlugin ([0942537](https://github.com///commit/094253788c005415c660d0bd04699cdb6e691c32))
+* **toReadableMarkdown:** use htmlReadabilityPlugins so frontmatter gets injected ([c68e49d](https://github.com///commit/c68e49d8a52abb81111b68c9f48199bc7e88b269))
+* **ts:** make ts happy ([42b2f06](https://github.com///commit/42b2f06c101ab0d4539020c1667e731e78ac750c))
+
+### Refactor
+
+* add attachMetadata into ReadableHtmlOptions ([7072095](https://github.com///commit/707209582c84632a8ed0e29064300c3e3628764a))
+* add ReadableMarkdownOptions better ([86b3a44](https://github.com///commit/86b3a4490072ae8a8d73d3828ae95bc5d9593cf8))
+* complete path B — inject article into mdast-plus readability ([4081ca3](https://github.com///commit/4081ca34d6b8c7d3e5e35fdcf3368910fcbc68c2))
+* reuse @isdk/mdast-plus for HTML-to-Markdown conversion ([78e89db](https://github.com///commit/78e89db2d3703c5ce961f9384a4bb2a80f58e4ab))
+* **toReadableMarkdown:** add attachMetadata option ([12ef2ad](https://github.com///commit/12ef2adc93df91348b0788ecfc19ba4b3440771a))
+
 ## [0.2.0](https://github.com///compare/v0.1.1...v0.2.0) (2026-09-09)
 
 ### ⚠ BREAKING CHANGES
