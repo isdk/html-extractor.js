@@ -1,6 +1,7 @@
 import { ReadableHtmlOptions, toReadableHtml } from './to-readable-html';
 import { htmlExtractorRehypePlugins } from './domain-plugins';
 import { mdast, htmlReadabilityPlugin, removeEmptyLinksPlugin } from '@isdk/mdast-plus';
+import { pick } from 'lodash-es';
 
 /**
  * Interface defining the structure of text content extraction results.
@@ -77,8 +78,8 @@ export async function toReadableMarkdown(
       .from('html')
       .use(htmlExtractorRehypePlugins)
       .useAt(htmlReadabilityPlugin, {
+        ...pick(options, ['url', 'frontmatter', 'sourceLink', 'smartExcerpt', 'fields', 'extraMetadata']),
         article: { ...article, content: cleanedHtml },
-        url: options.url,
       } as any)
       .use(removeEmptyLinksPlugin, options.emptyLinkBrackets === false
         ? { brackets: false }
