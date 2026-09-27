@@ -1,7 +1,11 @@
 import { ReadableHtmlOptions, toReadableHtml } from './to-readable-html';
 import { htmlExtractorRehypePlugins } from './domain-plugins';
-import { mdast, htmlReadabilityPlugin, removeEmptyLinksPlugin } from '@isdk/mdast-plus';
+import { mdast, htmlReadabilityPlugin, removeEmptyLinksPlugin, type ReadabilityOptions } from '@isdk/mdast-plus';
 import { pick } from 'lodash-es';
+
+export interface ReadableMarkdownOptions extends ReadableHtmlOptions, ReadabilityOptions {
+  attachMetadata?: boolean;
+}
 
 /**
  * Interface defining the structure of text content extraction results.
@@ -57,7 +61,7 @@ export interface TextContentResult {
  */
 export async function toReadableMarkdown(
     html: string,
-    options: ReadableHtmlOptions = {}
+    options: ReadableMarkdownOptions = {}
 ): Promise<TextContentResult> {
   try {
     // Extraction pass: Readability + DOM cleanup (this package's domain).
