@@ -60,6 +60,7 @@ export type ToMarkdownOptions = {
  */
 // 在 html 中 有一个 `<base>` 标签，用来改变链接的基准路径，eg, `<base href="https://example.com">`
 export async function htmlToMarkdown(html?: Compatible, options: ToMarkdownOptions = {}) {
+  if (!html) {return ''}
   const { rehypeParseOption, remarkPlugins = [], rehypePlugins = [], emptyLinkBrackets = DefaultEmptyLinkBrackets } = options;
 
   const pipeline = mdast(html)
